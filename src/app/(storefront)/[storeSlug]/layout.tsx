@@ -12,7 +12,7 @@ export default async function StorefrontLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: { storeSlug: string };
+  params: Promise<{ storeSlug: string }>;
 }) {
   const { storeSlug } = await params;
 

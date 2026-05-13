@@ -14,8 +14,8 @@ export default async function CategoryPage({
   params,
   searchParams,
 }: {
-  params: { storeSlug: string; categorySlug: string };
-  searchParams: { size?: string; color?: string };
+  params: Promise<{ storeSlug: string; categorySlug: string }>;
+  searchParams: Promise<{ size?: string; color?: string }>;
 }) {
   const { storeSlug, categorySlug } = await params;
   const { size, color } = await searchParams;
@@ -58,7 +58,7 @@ export default async function CategoryPage({
     include: {
       category: true,
       images: { take: 1, orderBy: { order: "asc" } },
-      store: { select: { name: true } },
+      store: { select: { name: true, slug: true } },
       variants: true,
       reviews: true,
     },

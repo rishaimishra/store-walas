@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 export default async function InventoryPage({
   params,
 }: {
-  params: { storeId: string };
+  params: Promise<{ storeId: string }>;
 }) {
   const { storeId } = await params;
   const { products, error } = await getProducts(storeId);

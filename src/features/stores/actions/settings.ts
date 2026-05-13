@@ -37,7 +37,7 @@ export async function updateStoreSettings(storeId: string, data: z.infer<typeof 
     return { success: true };
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return { error: error.errors[0].message };
+      return { error: error.issues[0].message };
     }
     console.error("Failed to update store settings:", error);
     return { error: "Failed to update store settings" };

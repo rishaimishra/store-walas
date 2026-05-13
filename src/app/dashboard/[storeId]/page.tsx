@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 export default async function StoreDashboardPage({
   params,
 }: {
-  params: { storeId: string };
+  params: Promise<{ storeId: string }>;
 }) {
   const { storeId } = await params;
 

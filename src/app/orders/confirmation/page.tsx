@@ -33,7 +33,7 @@ async function OrderNumbers({ ids }: { ids: string }) {
 export default async function OrderConfirmationPage({
   searchParams,
 }: {
-  searchParams: { ids?: string };
+  searchParams: Promise<{ ids?: string }>;
 }) {
   const { ids } = await searchParams;
 

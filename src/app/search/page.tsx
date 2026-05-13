@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 export default async function SearchPage({
   searchParams,
 }: {
-  searchParams: { q?: string; size?: string; color?: string; category?: string };
+  searchParams: Promise<{ q?: string; size?: string; color?: string; category?: string }>;
 }) {
   const { q: query, size, color, category } = await searchParams;
 

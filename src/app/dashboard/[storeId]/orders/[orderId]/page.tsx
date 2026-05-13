@@ -11,7 +11,7 @@ import { format } from "date-fns";
 export default async function StoreOrderDetailsPage({
   params,
 }: {
-  params: { storeId: string; orderId: string };
+  params: Promise<{ storeId: string; orderId: string }>;
 }) {
   const { storeId, orderId } = await params;
   const { order } = await getStoreOrder(storeId, orderId);

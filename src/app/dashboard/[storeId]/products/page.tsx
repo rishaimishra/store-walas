@@ -17,7 +17,7 @@ import { ProductActions } from "@/features/products/components/product-actions";
 export default async function ProductsPage({
   params,
 }: {
-  params: { storeId: string };
+  params: Promise<{ storeId: string }>;
 }) {
   const { storeId } = await params;
   const { products, error } = await getProducts(storeId);

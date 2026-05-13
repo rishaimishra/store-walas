@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 export default async function OrderDetailsPage({
   params,
 }: {
-  params: { orderId: string };
+  params: Promise<{ orderId: string }>;
 }) {
   const { orderId } = await params;
   const session = await auth.api.getSession({

@@ -98,19 +98,16 @@ function FormLabel({ className, ...props }: React.ComponentProps<typeof Label>) 
   )
 }
 
-function FormControl({ ...props }: React.ComponentProps<"div">) {
+function FormControl({ children, ...props }: React.ComponentProps<"div">) {
   const { error, formItemId, formDescriptionId, formMessageId } = useFormField()
 
-  const child = React.Children.only(props.children) as React.ReactElement
-
-  return React.cloneElement(child, {
+  return React.cloneElement(children as React.ReactElement, {
     id: formItemId,
     "aria-describedby": !error
       ? `${formDescriptionId}`
       : `${formDescriptionId} ${formMessageId}`,
     "aria-invalid": !!error,
     ...props,
-    children: child.props.children, // Ensure we don't overwrite children if passed in props
   })
 }
 

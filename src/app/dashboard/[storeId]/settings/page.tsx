@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 export default async function StoreSettingsPage({
   params,
 }: {
-  params: { storeId: string };
+  params: Promise<{ storeId: string }>;
 }) {
   const { storeId } = await params;
   const { store } = await getStore(storeId);

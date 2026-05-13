@@ -48,7 +48,7 @@ export async function createCategory(storeId: string, data: z.infer<typeof categ
     return { success: true, category };
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return { error: error.errors[0].message };
+      return { error: error.issues[0].message };
     }
     console.error("Failed to create category:", error);
     return { error: "Failed to create category" };

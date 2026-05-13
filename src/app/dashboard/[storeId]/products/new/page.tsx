@@ -6,7 +6,7 @@ import Link from "next/link";
 export default async function NewProductPage({
   params,
 }: {
-  params: { storeId: string };
+  params: Promise<{ storeId: string }>;
 }) {
   const { storeId } = await params;
 

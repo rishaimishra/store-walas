@@ -48,8 +48,8 @@ export function UserNav() {
     });
   };
 
-  const user = session.user;
-  const initials = user.name?.split(" ").map((n) => n[0]).join("").toUpperCase() || user.email[0].toUpperCase();
+  const user = session.user as any;
+  const initials = user.name?.split(" ").map((n: string) => n[0]).join("").toUpperCase() || user.email[0].toUpperCase();
 
   return (
     <DropdownMenu>
@@ -63,7 +63,7 @@ export function UserNav() {
           </Button>
         }
       />
-      <DropdownMenuContent className="w-56" align="end" forceMount>
+      <DropdownMenuContent className="w-56" align="end">
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">{user.name}</p>

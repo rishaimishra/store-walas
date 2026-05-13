@@ -14,7 +14,7 @@ import { ReviewForm } from "@/features/products/components/review-form";
 export default async function ProductDetailsPage({
   params,
 }: {
-  params: { storeSlug: string; productSlug: string };
+  params: Promise<{ storeSlug: string; productSlug: string }>;
 }) {
   const { storeSlug, productSlug } = await params;
 

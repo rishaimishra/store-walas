@@ -35,24 +35,37 @@ import { ImageUpload } from "@/components/shared/image-upload";
 const productSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   description: z.string().min(10, "Description must be at least 10 characters"),
-  price: z.coerce.number().positive("Price must be positive"),
-  stock: z.coerce.number().int().nonnegative("Stock cannot be negative"),
+  price: z.preprocess((val) => Number(val), z.number().positive("Price must be positive")),
+  stock: z.preprocess((val) => Number(val), z.number().int().nonnegative("Stock cannot be negative")),
   categoryId: z.string().min(1, "Category is required"),
   images: z.array(z.string()).min(1, "At least one image is required"),
   variants: z.array(z.object({
       size: z.string().optional(),
       color: z.string().optional(),
-      stock: z.coerce.number().int().nonnegative(),
-      price: z.coerce.number().optional(),
+      stock: z.preprocess((val) => Number(val), z.number().int().nonnegative()),
+      price: z.preprocess((val) => val === "" || val === undefined ? undefined : Number(val), z.number().optional()),
   })).optional(),
 });
 
-type ProductFormValues = z.infer<typeof productSchema>;
+interface ProductFormValues {
+  name: string;
+  description: string;
+  price: number;
+  stock: number;
+  categoryId: string;
+  images: string[];
+  variants?: {
+    size?: string;
+    color?: string;
+    stock: number;
+    price?: number;
+  }[];
+}
 
 interface ProductFormProps {
   storeId: string;
   categories: Category[];
-  initialData?: Product & { images: { url: string }[], variants: { size: string | null, color: string | null, stock: number, price: number | string | { toString(): string } }[] };
+  initialData?: Product & { images: { url: string }[], variants: { size: string | null, color: string | null, stock: number, price: number | string | { toString(): string } | null }[] };
 }
 
 export function ProductForm({ storeId, categories, initialData }: ProductFormProps) {
@@ -60,7 +73,7 @@ export function ProductForm({ storeId, categories, initialData }: ProductFormPro
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<ProductFormValues>({
-    resolver: zodResolver(productSchema),
+    resolver: zodResolver(productSchema) as any,
     defaultValues: initialData
       ? {
           name: initialData.name,

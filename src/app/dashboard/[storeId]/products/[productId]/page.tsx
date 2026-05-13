@@ -8,7 +8,7 @@ import { notFound } from "next/navigation";
 export default async function EditProductPage({
   params,
 }: {
-  params: { storeId: string; productId: string };
+  params: Promise<{ storeId: string; productId: string }>;
 }) {
   const { storeId, productId } = await params;
   const { product } = await getProduct(storeId, productId);

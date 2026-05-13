@@ -15,8 +15,8 @@ export default async function StoreHomePage({
   params,
   searchParams,
 }: {
-  params: { storeSlug: string };
-  searchParams: { size?: string; color?: string; category?: string };
+  params: Promise<{ storeSlug: string }>;
+  searchParams: Promise<{ size?: string; color?: string; category?: string }>;
 }) {
   const { storeSlug } = await params;
   const { size, color, category } = await searchParams;
@@ -51,7 +51,7 @@ export default async function StoreHomePage({
     include: {
       category: true,
       images: { take: 1, orderBy: { order: "asc" } },
-      store: { select: { name: true } },
+      store: { select: { name: true, slug: true } },
       variants: true,
       reviews: true,
     },

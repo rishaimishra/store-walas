@@ -12,7 +12,7 @@ import { CreateCategoryModal } from "@/features/products/components/create-categ
 export default async function CategoriesPage({
   params,
 }: {
-  params: { storeId: string };
+  params: Promise<{ storeId: string }>;
 }) {
   const { storeId } = await params;
   const { categories, error } = await getCategories(storeId);

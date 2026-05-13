@@ -16,7 +16,7 @@ import { Eye, ShoppingCart } from "lucide-react";
 export default async function OrdersPage({
   params,
 }: {
-  params: { storeId: string };
+  params: Promise<{ storeId: string }>;
 }) {
   const { storeId } = await params;
   const { orders, error } = await getStoreOrders(storeId);

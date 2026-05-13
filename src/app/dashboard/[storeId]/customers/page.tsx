@@ -15,7 +15,7 @@ import { Users, Mail, Calendar, DollarSign, ShoppingBag } from "lucide-react";
 export default async function CustomersPage({
   params,
 }: {
-  params: { storeId: string };
+  params: Promise<{ storeId: string }>;
 }) {
   const { storeId } = await params;
   const { customers, error } = await getStoreCustomers(storeId);

@@ -79,7 +79,7 @@ export async function createProduct(storeId: string, data: z.infer<typeof produc
     return { success: true, product };
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return { error: error.errors[0].message };
+      return { error: error.issues[0].message };
     }
     console.error("Failed to create product:", error);
     return { error: "Failed to create product" };
@@ -151,7 +151,7 @@ export async function updateProduct(
     return { success: true };
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return { error: error.errors[0].message };
+      return { error: error.issues[0].message };
     }
     console.error("Failed to update product:", error);
     return { error: "Failed to update product" };

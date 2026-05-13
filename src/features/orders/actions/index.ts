@@ -8,9 +8,9 @@ import { z } from "zod";
 
 const orderSchema = z.object({
   items: z.array(z.object({
-    productId: string(),
-    quantity: number().int().positive(),
-    price: number().positive(),
+    productId: z.string(),
+    quantity: z.number().int().positive(),
+    price: z.number().positive(),
   })),
   shippingAddress: z.string().min(10, "Shipping address is too short"),
 });
@@ -40,7 +40,7 @@ export async function createOrder(data: {
     // For this MVP, we'll create one order per store to make management easier for owners
 
     const storeIds = [...new Set(data.items.map(item => item.storeId))];
-    const createdOrders = [];
+    const createdOrders: any[] = [];
 
     // Use a transaction to ensure all orders are created and stock is updated atomically
     await db.$transaction(async (tx) => {
