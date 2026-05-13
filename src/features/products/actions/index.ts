@@ -86,13 +86,13 @@ export async function createProduct(storeId: string, data: z.infer<typeof produc
         storeId,
         categoryId: validatedData.categoryId,
         images: {
-          create: validatedData.images?.map((url, index) => ({
+          create: validatedData.images?.map((url: string, index: number) => ({
             url,
             order: index,
           })),
         },
         variants: {
-            create: validatedData.variants?.map(v => ({
+            create: validatedData.variants?.map((v: any) => ({
                 size: v.size,
                 color: v.color,
                 stock: v.stock,
@@ -160,13 +160,13 @@ export async function updateProduct(
           stock: validatedData.stock,
           categoryId: validatedData.categoryId,
           images: {
-            create: validatedData.images?.map((url, index) => ({
+            create: validatedData.images?.map((url: string, index: number) => ({
               url,
               order: index,
             })),
           },
           variants: {
-              create: validatedData.variants?.map(v => ({
+              create: validatedData.variants?.map((v: any) => ({
                   size: v.size,
                   color: v.color,
                   stock: v.stock,

@@ -26,7 +26,7 @@ export async function getStoreCustomers(storeId: string) {
     // Group by customer and calculate total spend and order count
     const customerMap = new Map();
 
-    orders.forEach(order => {
+    orders.forEach((order: any) => {
       const customer = order.customer;
       if (!customerMap.has(customer.id)) {
         customerMap.set(customer.id, {
