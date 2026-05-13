@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 interface ProductPurchaseSectionProps {
   product: Product & {
     images: { url: string }[];
-    store: { name: string };
+    store: { name: string; slug: string };
     variants: ProductVariant[];
   };
 }

@@ -10,6 +10,7 @@ export interface CartItem {
   image?: string;
   storeId: string;
   storeName: string;
+  storeSlug: string;
   slug: string;
   variant?: {
     id: string;

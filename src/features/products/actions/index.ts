@@ -51,6 +51,7 @@ export async function getProducts(storeId: string) {
         category: true,
         images: true,
         variants: true,
+        store: { select: { name: true, slug: true } },
       },
       orderBy: {
         createdAt: "desc",

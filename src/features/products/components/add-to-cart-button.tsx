@@ -13,7 +13,7 @@ interface AddToCartButtonProps {
     price: number | string | { toString(): string }; // Decimal from Prisma
     images: { url: string }[];
     storeId: string;
-    store: { name: string };
+    store: { name: string; slug: string };
     slug: string;
   };
   selectedVariant?: ProductVariant | null;
@@ -55,6 +55,7 @@ export function AddToCartButton({
       image: product.images[0]?.url,
       storeId: product.storeId,
       storeName: product.store.name,
+      storeSlug: product.store.slug,
       slug: product.slug,
       variant: selectedVariant ? {
         id: selectedVariant.id,

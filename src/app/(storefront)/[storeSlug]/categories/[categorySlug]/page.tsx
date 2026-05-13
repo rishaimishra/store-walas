@@ -77,8 +77,8 @@ export default async function CategoryPage({
     }
   });
 
-  const uniqueSizes = Array.from(new Set(allStoreVariants.map(v => v.size).filter(Boolean))) as string[];
-  const uniqueColors = Array.from(new Set(allStoreVariants.map(v => v.color).filter(Boolean))) as string[];
+  const uniqueSizes = Array.from(new Set(allStoreVariants.map((v: { size: string | null }) => v.size).filter(Boolean))) as string[];
+  const uniqueColors = Array.from(new Set(allStoreVariants.map((v: { color: string | null }) => v.color).filter(Boolean))) as string[];
 
   return (
     <div className="flex flex-col gap-12 pb-20 pt-10">
