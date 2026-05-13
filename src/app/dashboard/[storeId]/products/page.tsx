@@ -52,7 +52,7 @@ export default async function ProductsPage({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {products?.map((product: any) => (
+            {products?.map((product: { id: string; name: string; price: any; stock: number; category: { name: string }; images: { url: string }[]; variants: any[] }) => (
               <TableRow key={product.id}>
                 <TableCell className="font-medium">
                   <div className="flex items-center gap-3">

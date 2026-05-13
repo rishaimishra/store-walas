@@ -79,7 +79,7 @@ export function AdminSidebar() {
           <SidebarGroupLabel>Management</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {adminNavItems.map((item: any) => (
+              {adminNavItems.map((item: { title: string; url: string; icon: any }) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     render={<Link href={item.url} />}
@@ -99,7 +99,7 @@ export function AdminSidebar() {
           <SidebarGroupLabel>Platform</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {settingItems.map((item: any) => (
+              {settingItems.map((item: { title: string; url: string; icon: any }) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     render={<Link href={item.url} />}

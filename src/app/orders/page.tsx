@@ -80,7 +80,7 @@ export default async function CustomerOrdersPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {orders?.map((order: any) => (
+              {orders?.map((order: { id: string; orderNumber: string; createdAt: Date; totalAmount: any; status: string; store: { name: string } }) => (
                 <TableRow key={order.id} className="cursor-pointer group">
                   <TableCell className="font-mono text-xs font-bold">
                     {order.orderNumber}

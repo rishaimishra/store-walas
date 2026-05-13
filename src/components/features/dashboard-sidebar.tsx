@@ -83,7 +83,7 @@ export function DashboardSidebar() {
           <SidebarGroupLabel>Management</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {navItems.map((item: any) => (
+              {navItems.map((item: { title: string; url: string; icon: any }) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     render={<Link href={item.url} />}

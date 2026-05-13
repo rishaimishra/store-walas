@@ -57,7 +57,7 @@ export default async function OrdersPage({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {orders?.map((order: any) => (
+            {orders?.map((order: { id: string; createdAt: Date; totalAmount: any; status: string; customer: { name: string | null; email: string }; _count: { items: number } }) => (
               <TableRow key={order.id}>
                 <TableCell className="font-mono text-xs">
                   {order.id.slice(-8).toUpperCase()}

@@ -69,7 +69,7 @@ export default async function StoreOrderDetailsPage({
             </CardHeader>
             <CardContent>
               <div className="space-y-6">
-                {order.items.map((item: any) => (
+                {order.items.map((item: { id: string; product: { name: string; images: { url: string }[] }; variant: { size: string | null; color: string | null } | null; quantity: number; price: any }) => (
                   <div key={item.id} className="flex gap-4">
                     <div className="h-20 w-20 rounded border bg-muted flex-shrink-0 overflow-hidden">
                       {item.product.images[0] ? (

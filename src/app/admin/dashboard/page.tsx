@@ -45,7 +45,14 @@ export default async function AdminDashboard() {
 
   const totalRevenue = revenueResult._sum.totalAmount ? Number(revenueResult._sum.totalAmount) : 0;
 
-  const stats = [
+  interface AdminStat {
+    title: string;
+    value: string;
+    icon: any; // LucideIcon
+    description: string;
+  }
+
+  const stats: AdminStat[] = [
     {
       title: "Total Stores",
       value: storeCount.toString(),
@@ -79,7 +86,7 @@ export default async function AdminDashboard() {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat: any) => (
+        {stats.map((stat) => (
           <Card key={stat.title}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">

@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart, Trash2, Plus, Minus, ShoppingBag } from "lucide-react";
-import { useCart } from "@/hooks/use-cart";
+import { useCart, CartItem } from "@/hooks/use-cart";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -33,8 +33,8 @@ export function CartSheet() {
     );
   }
 
-  const total = cart.items.reduce((acc: number, item: any) => acc + item.price * item.quantity, 0);
-  const itemCount = cart.items.reduce((acc: number, item: any) => acc + item.quantity, 0);
+  const total = cart.items.reduce((acc: number, item: CartItem) => acc + item.price * item.quantity, 0);
+  const itemCount = cart.items.reduce((acc: number, item: CartItem) => acc + item.quantity, 0);
 
   return (
     <Sheet>
@@ -73,7 +73,7 @@ export function CartSheet() {
           <>
             <div className="flex-1 overflow-y-auto py-6">
               <div className="space-y-6">
-                {cart.items.map((item: any) => (
+                {cart.items.map((item: CartItem) => (
                   <div key={item.id} className="flex gap-4">
                     <div className="h-20 w-20 rounded-md border bg-muted overflow-hidden flex-shrink-0">
                       {item.image ? (

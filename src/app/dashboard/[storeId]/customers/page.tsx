@@ -25,10 +25,10 @@ export default async function CustomersPage({
     name: string | null;
     email: string;
     image: string | null;
-    createdAt: string;
+    createdAt: Date;
     totalSpend: number;
     orderCount: number;
-    lastOrderDate: string;
+    lastOrderDate: Date;
   }
 
   return (
