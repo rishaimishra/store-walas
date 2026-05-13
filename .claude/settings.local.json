@@ -1,7 +1,35 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npx create-next-app@latest *)"
+      "Bash(npx create-next-app@latest *)",
+      "Bash(npm install *)",
+      "Bash(npx prisma *)",
+      "Bash(npx shadcn@latest *)",
+      "Bash(npx tsx *)",
+      "Bash(node *)",
+      "Bash(mv \"src/app/\\(dashboard/\\)/[storeId/]/layout.tsx\" \"src/app/\\(dashboard\\)/[storeId]/\")",
+      "Bash(mv \"src/app/\\(dashboard/\\)/[storeId/]/page.tsx\" \"src/app/\\(dashboard\\)/[storeId]/\")",
+      "Bash(mv \"src/app/\\(dashboard/\\)/[storeId/]/categories\" \"src/app/\\(dashboard\\)/[storeId]/\")",
+      "Bash(mv \"src/app/\\(dashboard/\\)/[storeId/]/inventory\" \"src/app/\\(dashboard\\)/[storeId]/\")",
+      "Bash(mv \"src/app/\\(dashboard/\\)/[storeId/]/settings\" \"src/app/\\(dashboard\\)/[storeId]/\")",
+      "Bash(mv \"src/app/\\(storefront/\\)/[storeSlug/]/layout.tsx\" \"src/app/\\(storefront\\)/[storeSlug]/\")",
+      "Bash(mv \"src/app/\\(storefront/\\)/[storeSlug/]/page.tsx\" \"src/app/\\(storefront\\)/[storeSlug]/\")",
+      "Bash(mv \"src/app/\\(storefront/\\)/[storeSlug/]/categories/[categorySlug/]/page.tsx\" \"src/app/\\(storefront\\)/[storeSlug]/categories/[categorySlug]/\")",
+      "Bash(mkdir -p \"src/app/\\(storefront\\)/[storeSlug]/products/[productSlug]\")",
+      "Bash(mv \"src/app/\\(storefront/\\)/[storeSlug/]/products/[productSlug/]/page.tsx\" \"src/app/\\(storefront\\)/[storeSlug]/products/[productSlug]/\")",
+      "Bash(mkdir -p \"src/app/\\(dashboard\\)/[storeId]/products/new\")",
+      "Bash(mkdir -p \"src/app/\\(dashboard\\)/[storeId]/orders/[orderId]\")",
+      "Bash(mkdir -p \"src/app/\\(dashboard\\)/[storeId]/products/[productId]\")",
+      "Bash(pnpm add *)",
+      "WebSearch",
+      "Bash(pnpm dev *)",
+      "Bash(cp -r src/app/\\\\\\(dashboard\\\\\\)/* src/app/dashboard/)",
+      "Bash(cp -r src/app/\\\\\\(admin\\\\\\)/* src/app/admin/)",
+      "Bash(taskkill *)",
+      "PowerShell(Stop-Process *)",
+      "Bash(npx shadcn *)",
+      "Bash(npm list *)",
+      "Bash(npm run *)"
     ]
   }
 }
