@@ -183,7 +183,7 @@ export default async function ProductDetailsPage({
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-0.5 text-yellow-400">
-                                    {Array.from({ length: 5 }).map((_, i) => (
+                                    {Array.from({ length: 5 }).map((_: any, i: number) => (
                                         <Star key={i} className={cn("h-3 w-3", i < review.rating ? "fill-current" : "text-muted opacity-30")} />
                                     ))}
                                 </div>

@@ -26,8 +26,20 @@ export default async function InventoryPage({
   }
 
   // Flatten products and variants for a unified inventory view
-  const inventoryItems = products?.flatMap((product: any) => {
-    const baseItem = {
+  interface InventoryItem {
+    id: string;
+    productId: string;
+    name: string;
+    type: string;
+    size: string;
+    color: string;
+    stock: number;
+    price: number | any;
+    isVariant: boolean;
+  }
+
+  const inventoryItems = (products as any[])?.flatMap((product: any) => {
+    const baseItem: InventoryItem = {
       id: product.id,
       productId: product.id,
       name: product.name,
@@ -39,7 +51,7 @@ export default async function InventoryPage({
       isVariant: false,
     };
 
-    const variantItems = product.variants.map((v: any) => ({
+    const variantItems: InventoryItem[] = product.variants.map((v: any) => ({
       id: v.id,
       productId: product.id,
       name: product.name,
@@ -80,7 +92,7 @@ export default async function InventoryPage({
               <div>
                   <p className="text-xs text-muted-foreground uppercase font-bold">Low Stock Alerts</p>
                   <p className="text-2xl font-bold text-yellow-600">
-                      {inventoryItems?.filter((i: any) => i.stock > 0 && i.stock <= 5).length}
+                      {inventoryItems?.filter((i: InventoryItem) => i.stock > 0 && i.stock <= 5).length}
                   </p>
               </div>
           </div>
@@ -91,7 +103,7 @@ export default async function InventoryPage({
               <div>
                   <p className="text-xs text-muted-foreground uppercase font-bold">Out of Stock</p>
                   <p className="text-2xl font-bold text-destructive">
-                      {inventoryItems?.filter((i: any) => i.stock === 0).length}
+                      {inventoryItems?.filter((i: InventoryItem) => i.stock === 0).length}
                   </p>
               </div>
           </div>
@@ -112,7 +124,7 @@ export default async function InventoryPage({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {inventoryItems?.map((item: any) => (
+            {inventoryItems?.map((item: InventoryItem) => (
               <TableRow key={item.id} className={item.isVariant ? "bg-muted/20" : "font-medium"}>
                 <TableCell>
                   <div className="flex flex-col">

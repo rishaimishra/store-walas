@@ -92,7 +92,7 @@ export async function createProduct(storeId: string, data: z.infer<typeof produc
           })),
         },
         variants: {
-            create: validatedData.variants?.map((v: any) => ({
+            create: validatedData.variants?.map((v: { size?: string; color?: string; stock: number; price?: number }) => ({
                 size: v.size,
                 color: v.color,
                 stock: v.stock,

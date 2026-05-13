@@ -31,13 +31,13 @@ export const useCart = create<CartStore>()(
   persist(
     (set, get) => ({
       items: [],
-      addItem: (item) => {
+      addItem: (item: CartItem) => {
         const currentItems = get().items;
-        const existingItem = currentItems.find((i) => i.id === item.id);
+        const existingItem = currentItems.find((i: CartItem) => i.id === item.id);
 
         if (existingItem) {
           return set({
-            items: currentItems.map((i) =>
+            items: currentItems.map((i: CartItem) =>
               i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
             ),
           });
@@ -45,12 +45,12 @@ export const useCart = create<CartStore>()(
 
         set({ items: [...currentItems, item] });
       },
-      removeItem: (id) => {
-        set({ items: get().items.filter((i) => i.id !== id) });
+      removeItem: (id: string) => {
+        set({ items: get().items.filter((i: CartItem) => i.id !== id) });
       },
-      updateQuantity: (id, quantity) => {
+      updateQuantity: (id: string, quantity: number) => {
         set({
-          items: get().items.map((i) =>
+          items: get().items.map((i: CartItem) =>
             i.id === id ? { ...i, quantity: Math.max(1, quantity) } : i
           ),
         });

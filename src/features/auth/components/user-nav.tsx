@@ -48,8 +48,9 @@ export function UserNav() {
     });
   };
 
-  const user = session.user as any;
+  const user = session.user;
   const initials = user.name?.split(" ").map((n: string) => n[0]).join("").toUpperCase() || user.email[0].toUpperCase();
+  const userRole = (user as any).role; // Narrowing the any usage to just the custom field if needed, or better yet:
 
   return (
     <DropdownMenu>

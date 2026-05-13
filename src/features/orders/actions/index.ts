@@ -15,8 +15,16 @@ const orderSchema = z.object({
   shippingAddress: z.string().min(10, "Shipping address is too short"),
 });
 
+interface OrderItem {
+  productId: string;
+  variantId?: string;
+  quantity: number;
+  price: number;
+  storeId: string;
+}
+
 export async function createOrder(data: {
-  items: { productId: string; variantId?: string; quantity: number; price: number; storeId: string }[];
+  items: OrderItem[];
   shippingAddress: string;
 }) {
   try {
@@ -33,20 +41,20 @@ export async function createOrder(data: {
     }
 
     // Calculate total amount
-    const totalAmount = data.items.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+    const totalAmount = data.items.reduce((acc: number, item: OrderItem) => acc + (item.price * item.quantity), 0);
 
     // Group items by store (since one order can contain items from multiple stores)
     // In a more complex multi-vendor app, we might create multiple sub-orders
     // For this MVP, we'll create one order per store to make management easier for owners
 
-    const storeIds = [...new Set(data.items.map((item: any) => item.storeId))];
-    const createdOrders: any[] = [];
+    const storeIds = [...new Set(data.items.map((item: OrderItem) => item.storeId))];
+    const createdOrders: { id: string }[] = [];
 
     // Use a transaction to ensure all orders are created and stock is updated atomically
     await db.$transaction(async (tx) => {
       for (const storeId of storeIds) {
-        const storeItems = data.items.filter((item: any) => item.storeId === storeId);
-        const storeTotal = storeItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+        const storeItems = data.items.filter((item: OrderItem) => item.storeId === storeId);
+        const storeTotal = storeItems.reduce((acc: number, item: OrderItem) => acc + (item.price * item.quantity), 0);
         const orderNumber = `ORD-${Math.random().toString(36).substring(2, 9).toUpperCase()}`;
 
         // 1. Update stock for each item
@@ -93,7 +101,7 @@ export async function createOrder(data: {
             customerId: session.user.id,
             shippingAddress: data.shippingAddress,
             items: {
-              create: storeItems.map((item: any) => ({
+              create: storeItems.map((item: OrderItem) => ({
                 productId: item.productId,
                 variantId: item.variantId,
                 quantity: item.quantity,
@@ -107,7 +115,7 @@ export async function createOrder(data: {
     });
 
     revalidatePath("/orders");
-    return { success: true, orderIds: createdOrders.map((o: any) => o.id) };
+    return { success: true, orderIds: createdOrders.map((o: { id: string }) => o.id) };
   } catch (error) {
     console.error("Failed to create order:", error);
     return { error: "Failed to place order. Please try again." };

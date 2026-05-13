@@ -73,7 +73,7 @@ export function ProductForm({ storeId, categories, initialData }: ProductFormPro
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<ProductFormValues>({
-    resolver: zodResolver(productSchema) as any,
+    resolver: zodResolver(productSchema),
     defaultValues: initialData
       ? {
           name: initialData.name,
@@ -82,7 +82,7 @@ export function ProductForm({ storeId, categories, initialData }: ProductFormPro
           stock: initialData.stock,
           categoryId: initialData.categoryId,
           images: initialData.images.map((img: { url: string }) => img.url),
-          variants: initialData.variants.map((v: { size: string | null; color: string | null; stock: number; price: any }) => ({
+          variants: initialData.variants.map((v: { size: string | null; color: string | null; stock: number; price: string | number | null | any }) => ({
               size: v.size || "",
               color: v.color || "",
               stock: v.stock,
@@ -109,7 +109,7 @@ export function ProductForm({ storeId, categories, initialData }: ProductFormPro
     startTransition(async () => {
       const formattedValues = {
         ...values,
-        variants: values.variants?.map((v: any) => ({
+        variants: values.variants?.map((v: { size?: string; color?: string; stock: number; price?: number }) => ({
             ...v,
             size: v.size || undefined,
             color: v.color || undefined,
@@ -210,7 +210,7 @@ export function ProductForm({ storeId, categories, initialData }: ProductFormPro
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          {categories.map((category) => (
+                          {categories.map((category: any) => (
                             <SelectItem key={category.id} value={category.id}>
                               {category.name}
                             </SelectItem>
@@ -233,7 +233,7 @@ export function ProductForm({ storeId, categories, initialData }: ProductFormPro
                           value={field.value || []}
                           disabled={isPending}
                           onChange={(urls) => field.onChange(urls)}
-                          onRemove={(url) => field.onChange([...field.value.filter((current) => current !== url)])}
+                          onRemove={(url: string) => field.onChange([...field.value.filter((current: string) => current !== url)])}
                         />
                       </FormControl>
                       <FormMessage />
@@ -257,7 +257,7 @@ export function ProductForm({ storeId, categories, initialData }: ProductFormPro
                 <Separator />
 
                 <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2">
-                    {fields.map((field, index) => (
+                    {fields.map((field: any, index: number) => (
                         <div key={field.id} className="p-4 border rounded-lg bg-muted/30 space-y-4 relative group">
                             <Button
                                 type="button"

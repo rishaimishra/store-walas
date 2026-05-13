@@ -18,11 +18,11 @@ export function VariantSelector({
   if (variants.length === 0) return null;
 
   // Extract unique sizes and colors
-  const sizes = Array.from(new Set(variants.map((v: any) => v.size).filter(Boolean)));
-  const colors = Array.from(new Set(variants.map((v: any) => v.color).filter(Boolean)));
+  const sizes = Array.from(new Set(variants.map((v: ProductVariant) => v.size).filter(Boolean)));
+  const colors = Array.from(new Set(variants.map((v: ProductVariant) => v.color).filter(Boolean)));
 
   const handleSelect = (size?: string | null, color?: string | null) => {
-    const found = variants.find((v: any) => v.size === size && v.color === color);
+    const found = variants.find((v: ProductVariant) => v.size === size && v.color === color);
     if (found) {
       onVariantSelect(found);
     }
@@ -39,14 +39,14 @@ export function VariantSelector({
             {colors.map((color: any) => {
               const isSelected = selectedVariant?.color === color;
               const isAvailable = variants.some(
-                (v: any) => v.color === color && v.stock > 0
+                (v: ProductVariant) => v.color === color && v.stock > 0
               );
 
               return (
                 <button
-                  key={color}
+                  key={color as string}
                   disabled={!isAvailable}
-                  onClick={() => handleSelect(selectedVariant?.size, color)}
+                  onClick={() => handleSelect(selectedVariant?.size, color as string)}
                   className={cn(
                     "px-4 py-2 rounded-md border text-sm font-medium transition-all",
                     isSelected
@@ -72,14 +72,14 @@ export function VariantSelector({
             {sizes.map((size: any) => {
               const isSelected = selectedVariant?.size === size;
               const isAvailable = variants.some(
-                (v: any) => v.size === size && v.stock > 0
+                (v: ProductVariant) => v.size === size && v.stock > 0
               );
 
               return (
                 <button
-                  key={size}
+                  key={size as string}
                   disabled={!isAvailable}
-                  onClick={() => handleSelect(size, selectedVariant?.color)}
+                  onClick={() => handleSelect(size as string, selectedVariant?.color)}
                   className={cn(
                     "px-4 py-2 rounded-md border text-sm font-medium transition-all",
                     isSelected

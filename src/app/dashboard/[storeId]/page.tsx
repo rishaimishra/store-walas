@@ -61,7 +61,7 @@ export default async function StoreDashboardPage({
     }
   });
 
-  const salesData = Object.entries(salesMap).map(([day, amount]) => ({
+  const salesData = Object.entries(salesMap).map(([day, amount]: [string, number]) => ({
     day,
     amount
   })).reverse(); // Keep chronological order (roughly, based on how we initialized)

@@ -156,7 +156,7 @@ export default async function StoreHomePage({
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-              {products.map((product) => (
+              {products.map((product: any) => (
                 <ProductCard key={product.id} product={JSON.parse(JSON.stringify(product))} showStore={false} />
               ))}
 

@@ -24,7 +24,16 @@ export async function getStoreCustomers(storeId: string) {
     });
 
     // Group by customer and calculate total spend and order count
-    const customerMap = new Map();
+    const customerMap = new Map<string, {
+        id: string;
+        name: string | null;
+        email: string;
+        image: string | null;
+        createdAt: Date;
+        totalSpend: number;
+        orderCount: number;
+        lastOrderDate: Date;
+    }>();
 
     orders.forEach((order: any) => {
       const customer = order.customer;
@@ -38,11 +47,13 @@ export async function getStoreCustomers(storeId: string) {
       }
 
       const stats = customerMap.get(customer.id);
-      stats.totalSpend += Number(order.totalAmount);
-      stats.orderCount += 1;
+      if (stats) {
+        stats.totalSpend += Number(order.totalAmount);
+        stats.orderCount += 1;
 
-      if (new Date(order.createdAt) > new Date(stats.lastOrderDate)) {
-          stats.lastOrderDate = order.createdAt;
+        if (new Date(order.createdAt) > new Date(stats.lastOrderDate)) {
+            stats.lastOrderDate = order.createdAt;
+        }
       }
     });
 

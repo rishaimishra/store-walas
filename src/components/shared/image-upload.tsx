@@ -39,7 +39,7 @@ export function ImageUpload({
   return (
     <div>
       <div className="mb-4 flex items-center flex-wrap gap-4">
-        {value.map((url) => (
+        {value.map((url: string) => (
           <div key={url} className="relative w-[200px] h-[200px] rounded-md overflow-hidden border bg-muted/30 group">
             <div className="z-10 absolute top-2 right-2">
               <Button type="button" onClick={() => onRemove(url)} variant="destructive" size="icon" className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity">

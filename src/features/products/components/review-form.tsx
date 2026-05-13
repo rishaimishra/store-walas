@@ -41,7 +41,7 @@ export function ReviewForm({ productId }: { productId: string }) {
       <div className="space-y-2">
         <Label>Rating</Label>
         <div className="flex gap-1">
-          {[1, 2, 3, 4, 5].map((star) => (
+          {[1, 2, 3, 4, 5].map((star: number) => (
             <button
               key={star}
               type="button"

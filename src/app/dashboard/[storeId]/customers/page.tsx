@@ -20,6 +20,17 @@ export default async function CustomersPage({
   const { storeId } = await params;
   const { customers, error } = await getStoreCustomers(storeId);
 
+  interface CustomerItem {
+    id: string;
+    name: string | null;
+    email: string;
+    image: string | null;
+    createdAt: string;
+    totalSpend: number;
+    orderCount: number;
+    lastOrderDate: string;
+  }
+
   return (
     <div className="flex flex-col gap-8">
       <div>
@@ -44,7 +55,7 @@ export default async function CustomersPage({
               <div>
                   <p className="text-xs text-muted-foreground uppercase font-bold">Total Customer Spend</p>
                   <p className="text-2xl font-bold text-green-600">
-                      ${customers?.reduce((acc: number, c: any) => acc + c.totalSpend, 0).toFixed(2) || "0.00"}
+                      ${customers?.reduce((acc: number, c: CustomerItem) => acc + c.totalSpend, 0).toFixed(2) || "0.00"}
                   </p>
               </div>
           </div>
@@ -55,7 +66,7 @@ export default async function CustomersPage({
               <div>
                   <p className="text-xs text-muted-foreground uppercase font-bold">Avg. Orders per Customer</p>
                   <p className="text-2xl font-bold text-blue-600">
-                      {customers?.length ? (customers.reduce((acc: number, c: any) => acc + c.orderCount, 0) / customers.length).toFixed(1) : "0.0"}
+                      {customers?.length ? ((customers as CustomerItem[]).reduce((acc: number, c: CustomerItem) => acc + c.orderCount, 0) / customers.length).toFixed(1) : "0.0"}
                   </p>
               </div>
           </div>
@@ -74,7 +85,7 @@ export default async function CustomersPage({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {customers?.map((customer: any) => {
+            {customers?.map((customer: CustomerItem) => {
               const initials = customer.name?.split(" ").map((n: string) => n[0]).join("").toUpperCase() || customer.email[0].toUpperCase();
 
               return (
