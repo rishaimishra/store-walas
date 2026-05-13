@@ -64,7 +64,7 @@ export function ReviewForm({ productId }: { productId: string }) {
           id="comment"
           placeholder="What did you think of this item?"
           value={comment}
-          onChange={(e) => setComment(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setComment(e.target.value)}
           className="min-h-[100px] resize-none"
         />
       </div>

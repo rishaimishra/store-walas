@@ -29,7 +29,8 @@
       "PowerShell(Stop-Process *)",
       "Bash(npx shadcn *)",
       "Bash(npm list *)",
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "Bash(pnpm run *)"
     ]
   }
 }

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { db } from "@/lib/db";
 import { notFound } from "next/navigation";
 import Link from "next/link";
@@ -82,10 +83,12 @@ export default async function StoreHomePage({
       {/* Banner Section */}
       <section className="relative h-[400px] w-full overflow-hidden bg-muted">
         {store.bannerUrl ? (
-          <img
+          <Image
             src={store.bannerUrl}
             alt={`${store.name} banner`}
-            className="h-full w-full object-cover"
+            fill
+            className="object-cover"
+            priority
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center bg-primary/5">

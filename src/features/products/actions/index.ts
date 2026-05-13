@@ -6,7 +6,7 @@ import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { Category, Product, ProductImage, ProductVariant } from "@prisma/client";
+import { Category, Product, ProductImage, ProductVariant, Prisma } from "@prisma/client";
 
 export type ProductWithRelations = Product & {
   category: Category;
@@ -151,7 +151,7 @@ export async function updateProduct(
     const validatedData = productSchema.parse(data);
 
     // Update product and its images/variants
-    await db.$transaction(async (tx) => {
+    await db.$transaction(async (tx: Prisma.TransactionClient) => {
       await tx.productImage.deleteMany({
         where: { productId },
       });

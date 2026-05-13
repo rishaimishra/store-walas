@@ -25,7 +25,7 @@ export function SearchInput({ placeholder = "Search..." }: { placeholder?: strin
         placeholder={placeholder}
         className="pl-8 w-full h-9 md:h-10"
         value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)}
       />
     </form>
   );

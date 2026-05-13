@@ -265,7 +265,7 @@ function SidebarTrigger({
       variant="ghost"
       size="icon-sm"
       className={cn(className)}
-      onClick={(event) => {
+      onClick={(event: Parameters<NonNullable<React.ComponentProps<typeof Button>["onClick"]>>[0]) => {
         onClick?.(event)
         toggleSidebar()
       }}

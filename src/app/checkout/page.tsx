@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useCart, CartItem } from "@/hooks/use-cart";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -105,7 +106,7 @@ export default function CheckoutPage() {
                       placeholder="Enter your full street address, apartment number, city, and zip code..."
                       className="min-h-[120px]"
                       value={address}
-                      onChange={(e) => setAddress(e.target.value)}
+                      onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setAddress(e.target.value)}
                     />
                   </div>
                 </div>
@@ -152,8 +153,15 @@ export default function CheckoutPage() {
                 {cart.items.map((item: CartItem) => (
                   <div key={item.id} className="flex justify-between gap-4">
                     <div className="flex gap-3">
-                      <div className="h-14 w-14 rounded-md border bg-muted flex-shrink-0 overflow-hidden">
-                        {item.image && <img src={item.image} alt="" className="h-full w-full object-cover" />}
+                      <div className="h-14 w-14 rounded-md border bg-muted flex-shrink-0 overflow-hidden relative">
+                        {item.image && (
+                          <Image
+                            src={item.image}
+                            alt={item.name}
+                            fill
+                            className="object-cover"
+                          />
+                        )}
                       </div>
                       <div className="space-y-1">
                         <p className="text-sm font-medium line-clamp-1">{item.name}</p>

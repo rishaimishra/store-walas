@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { db } from "@/lib/db";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -108,10 +109,11 @@ export default async function HomePage() {
                 <Card key={store.id} className="overflow-hidden group hover:shadow-lg transition-shadow">
                   <div className="h-48 bg-muted relative">
                     {store.bannerUrl ? (
-                      <img
+                      <Image
                         src={store.bannerUrl}
                         alt={store.name}
-                        className="w-full h-full object-cover"
+                        fill
+                        className="object-cover transition-transform group-hover:scale-105"
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center bg-accent/20">
@@ -122,11 +124,14 @@ export default async function HomePage() {
                   <CardHeader>
                     <div className="flex items-center gap-4">
                       {store.logoUrl && (
-                        <img
-                          src={store.logoUrl}
-                          alt={`${store.name} logo`}
-                          className="w-12 h-12 rounded-full border bg-background -mt-10 z-10"
-                        />
+                        <div className="relative w-12 h-12 -mt-10 z-10">
+                          <Image
+                            src={store.logoUrl}
+                            alt={`${store.name} logo`}
+                            fill
+                            className="rounded-full border bg-background object-cover"
+                          />
+                        </div>
                       )}
                       <CardTitle className="group-hover:text-primary transition-colors">
                         {store.name}

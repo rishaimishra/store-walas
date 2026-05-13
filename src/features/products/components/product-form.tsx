@@ -21,7 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Category, Product } from "@prisma/client";
+import { Category, Product, ProductImage, ProductVariant } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { createProduct, updateProduct } from "../actions";
@@ -65,7 +65,10 @@ type ProductFormValues = {
 interface ProductFormProps {
   storeId: string;
   categories: Category[];
-  initialData?: any;
+  initialData?: Product & {
+    images: ProductImage[];
+    variants: ProductVariant[];
+  };
 }
 
 export function ProductForm({ storeId, categories, initialData }: ProductFormProps) {
@@ -73,6 +76,7 @@ export function ProductForm({ storeId, categories, initialData }: ProductFormPro
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<ProductFormValues>({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: zodResolver(productSchema) as any,
     defaultValues: initialData
       ? {
@@ -81,8 +85,8 @@ export function ProductForm({ storeId, categories, initialData }: ProductFormPro
           price: Number(initialData.price),
           stock: initialData.stock,
           categoryId: initialData.categoryId,
-          images: initialData.images.map((img: any) => img.url),
-          variants: initialData.variants.map((v: any) => ({
+          images: initialData.images.map((img: { url: string }) => img.url),
+          variants: initialData.variants.map((v) => ({
               size: v.size || "",
               color: v.color || "",
               stock: v.stock,
@@ -232,7 +236,7 @@ export function ProductForm({ storeId, categories, initialData }: ProductFormPro
                         <ImageUpload
                           value={field.value || []}
                           disabled={isPending}
-                          onChange={(urls) => field.onChange(urls)}
+                          onChange={(urls: string[]) => field.onChange(urls)}
                           onRemove={(url: string) => field.onChange([...field.value.filter((current: string) => current !== url)])}
                         />
                       </FormControl>
@@ -257,7 +261,7 @@ export function ProductForm({ storeId, categories, initialData }: ProductFormPro
                 <Separator />
 
                 <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2">
-                    {fields.map((field, index: number) => (
+                    {fields.map((field, index) => (
                         <div key={field.id} className="p-4 border rounded-lg bg-muted/30 space-y-4 relative group">
                             <Button
                                 type="button"

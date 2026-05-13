@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ShoppingBag } from "lucide-react";
@@ -32,10 +33,11 @@ export function ProductCard({ product, showStore = true }: ProductCardProps) {
       <Link href={`/${product.store.slug}/products/${product.slug}`}>
         <div className="aspect-square bg-muted relative overflow-hidden">
           {product.images[0] ? (
-            <img
+            <Image
               src={product.images[0].url}
               alt={product.name}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              fill
+              className="object-cover group-hover:scale-105 transition-transform duration-300"
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center">

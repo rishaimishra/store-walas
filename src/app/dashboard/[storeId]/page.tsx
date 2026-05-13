@@ -78,7 +78,7 @@ export default async function StoreDashboardPage({
       });
   }
 
-  const maxSales = Math.max(...chartData.map((d) => d.amount), 1);
+  const maxSales = Math.max(...chartData.map((d: { amount: number }) => d.amount), 1);
 
   const stats: { title: string; value: string; icon: LucideIcon; description: string }[] = [
     {
@@ -114,7 +114,7 @@ export default async function StoreDashboardPage({
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat) => (
+        {stats.map((stat: { title: string; value: string; icon: LucideIcon; description: string }) => (
           <Card key={stat.title}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
@@ -139,7 +139,7 @@ export default async function StoreDashboardPage({
             <CardDescription>Sales overview for the last 7 days</CardDescription>
           </CardHeader>
           <CardContent className="h-[300px] flex items-end justify-between gap-2 pt-10">
-            {salesData.map((data) => (
+            {salesData.map((data: { day: string; amount: number }) => (
                 <div key={data.day} className="flex-1 flex flex-col items-center gap-2 group">
                     <div
                         className="w-full bg-primary/20 hover:bg-primary transition-colors rounded-t-sm relative"

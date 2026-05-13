@@ -5,7 +5,7 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 
-import { Order } from "@prisma/client";
+import { Order, Prisma } from "@prisma/client";
 
 interface OrderItem {
   productId: string;
@@ -45,7 +45,7 @@ export async function createOrder(data: {
     const createdOrders: { id: string }[] = [];
 
     // Use a transaction to ensure all orders are created and stock is updated atomically
-    await db.$transaction(async (tx) => {
+    await db.$transaction(async (tx: Prisma.TransactionClient) => {
       for (const storeId of storeIds) {
         const storeItems = data.items.filter((item: OrderItem) => item.storeId === storeId);
         const storeTotal = storeItems.reduce((acc: number, item: OrderItem) => acc + (item.price * item.quantity), 0);

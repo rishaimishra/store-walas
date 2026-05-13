@@ -50,7 +50,7 @@ export function LoginForm() {
             router.push("/");
             router.refresh();
         },
-        onError: (ctx) => {
+        onError: (ctx: { error: { message?: string } }) => {
             toast.error(ctx.error.message || "Failed to login");
             setLoading(false);
         }

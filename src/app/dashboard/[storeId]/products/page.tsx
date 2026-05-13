@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { db } from "@/lib/db";
 import { getProducts } from "@/features/products/actions";
 import { Button } from "@/components/ui/button";
@@ -63,9 +64,14 @@ export default async function ProductsPage({
               <TableRow key={product.id}>
                 <TableCell className="font-medium">
                   <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded border bg-muted flex items-center justify-center overflow-hidden">
+                    <div className="h-10 w-10 rounded border bg-muted flex items-center justify-center overflow-hidden relative">
                         {product.images[0] ? (
-                            <img src={product.images[0].url} alt={product.name} className="object-cover h-full w-full" />
+                            <Image
+                              src={product.images[0].url}
+                              alt={product.name}
+                              fill
+                              className="object-cover"
+                            />
                         ) : (
                             <Package className="h-5 w-5 text-muted-foreground opacity-50" />
                         )}

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ImagePlus, Trash } from "lucide-react";
@@ -46,8 +47,9 @@ export function ImageUpload({
                 <Trash className="h-4 w-4" />
               </Button>
             </div>
-            <img
-              className="object-cover w-full h-full"
+            <Image
+              fill
+              className="object-cover"
               alt="Product image"
               src={url}
             />
@@ -60,8 +62,8 @@ export function ImageUpload({
             disabled={disabled}
             placeholder="Paste image URL here..."
             value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            onKeyDown={(e) => {
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUrl(e.target.value)}
+            onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
                 if (e.key === "Enter") {
                     e.preventDefault();
                     onAdd();

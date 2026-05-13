@@ -35,7 +35,7 @@ export function VariantSelector({
             Color
           </h4>
           <div className="flex flex-wrap gap-2">
-            {colors.map((color) => {
+            {colors.map((color: string | null) => {
               const isSelected = selectedVariant?.color === color;
               const isAvailable = variants.some(
                 (v: ProductVariant) => v.color === color && v.stock > 0
@@ -68,7 +68,7 @@ export function VariantSelector({
             Size
           </h4>
           <div className="flex flex-wrap gap-2">
-            {sizes.map((size) => {
+            {sizes.map((size: string | null) => {
               const isSelected = selectedVariant?.size === size;
               const isAvailable = variants.some(
                 (v: ProductVariant) => v.size === size && v.stock > 0

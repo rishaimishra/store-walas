@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { getStoreOrder, StoreOrderDetails } from "@/features/orders/actions/store";
 import { ChevronLeft, Package, MapPin, User, ShoppingBag } from "lucide-react";
 import Link from "next/link";
@@ -71,12 +72,13 @@ export default async function StoreOrderDetailsPage({
               <div className="space-y-6">
                 {order.items.map((item: StoreOrderDetails["items"][number]) => (
                   <div key={item.id} className="flex gap-4">
-                    <div className="h-20 w-20 rounded border bg-muted flex-shrink-0 overflow-hidden">
+                    <div className="h-20 w-20 rounded border bg-muted flex-shrink-0 overflow-hidden relative">
                       {item.product.images[0] ? (
-                        <img
+                        <Image
                           src={item.product.images[0].url}
                           alt={item.product.name}
-                          className="h-full w-full object-cover"
+                          fill
+                          className="object-cover"
                         />
                       ) : (
                         <div className="h-full w-full flex items-center justify-center">

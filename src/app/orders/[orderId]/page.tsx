@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { db } from "@/lib/db";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
@@ -83,9 +84,14 @@ export default async function OrderDetailsPage({
             <CardContent className="space-y-4">
               {order.items.map((item: OrderItemWithProduct) => (
                 <div key={item.id} className="flex gap-4">
-                  <div className="h-16 w-16 rounded border bg-muted overflow-hidden flex-shrink-0">
+                  <div className="h-16 w-16 rounded border bg-muted overflow-hidden flex-shrink-0 relative">
                     {item.product.images[0] && (
-                      <img src={item.product.images[0].url} alt="" className="h-full w-full object-cover" />
+                      <Image
+                        src={item.product.images[0].url}
+                        alt={item.product.name}
+                        fill
+                        className="object-cover"
+                      />
                     )}
                   </div>
                   <div className="flex-1 min-w-0">

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { db } from "@/lib/db";
 import { notFound } from "next/navigation";
 import Link from "next/link";
@@ -31,7 +32,13 @@ export default async function StorefrontLayout({
         <div className="container mx-auto px-4 flex h-16 items-center justify-between">
           <Link href={`/${storeSlug}`} className="flex items-center gap-3">
             {store.logoUrl ? (
-              <img src={store.logoUrl} alt={store.name} className="h-8 w-8 rounded-full" />
+              <Image
+                src={store.logoUrl}
+                alt={store.name}
+                width={32}
+                height={32}
+                className="h-8 w-8 rounded-full object-cover"
+              />
             ) : (
               <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary">
                 {store.name.charAt(0)}

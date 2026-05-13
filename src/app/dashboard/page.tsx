@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { db } from "@/lib/db";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
@@ -44,9 +45,14 @@ export default async function DashboardPage() {
           <Card key={store.id} className="hover:shadow-md transition-shadow">
             <CardHeader>
               <div className="flex items-center gap-4">
-                <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center border">
+                <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center border relative overflow-hidden">
                   {store.logoUrl ? (
-                    <img src={store.logoUrl} alt="" className="h-full w-full object-cover rounded-lg" />
+                    <Image
+                      src={store.logoUrl}
+                      alt={store.name}
+                      fill
+                      className="object-cover"
+                    />
                   ) : (
                     <StoreIcon className="h-6 w-6 text-primary" />
                   )}

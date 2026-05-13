@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 async function main() {
   console.log("Seeding database...");
-  console.log("Prisma models available:", Object.keys(prisma).filter(k => !k.startsWith("_")));
+  console.log("Prisma models available:", Object.keys(prisma).filter((k: string) => !k.startsWith("_")));
 
   // Create Super Admin
   await prisma.user.upsert({
@@ -164,7 +164,7 @@ async function main() {
 }
 
 main()
-  .catch((e) => {
+  .catch((e: Error) => {
     console.error(e);
     process.exit(1);
   })

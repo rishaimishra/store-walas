@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { db } from "@/lib/db";
 import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -65,10 +66,12 @@ export default async function ProductDetailsPage({
         <div className="space-y-4">
           <div className="aspect-square bg-muted rounded-xl overflow-hidden border">
             {product.images[0] ? (
-              <img
+              <Image
                 src={product.images[0].url}
                 alt={product.name}
-                className="w-full h-full object-cover"
+                fill
+                className="object-cover"
+                priority
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center">
@@ -82,7 +85,12 @@ export default async function ProductDetailsPage({
                 key={image.id}
                 className="aspect-square bg-muted rounded-lg overflow-hidden border cursor-pointer hover:opacity-80 transition-opacity"
               >
-                <img src={image.url} alt={product.name} className="w-full h-full object-cover" />
+                <Image
+                  src={image.url}
+                  alt={product.name}
+                  fill
+                  className="object-cover"
+                />
               </div>
             ))}
           </div>
@@ -140,7 +148,13 @@ export default async function ProductDetailsPage({
             <div className="flex items-center gap-4">
               <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary border">
                 {product.store.logoUrl ? (
-                  <img src={product.store.logoUrl} className="h-full w-full rounded-full object-cover" alt="" />
+                  <Image
+                    src={product.store.logoUrl}
+                    alt={product.store.name}
+                    width={48}
+                    height={48}
+                    className="h-full w-full rounded-full object-cover"
+                  />
                 ) : (
                   product.store.name.charAt(0)
                 )}

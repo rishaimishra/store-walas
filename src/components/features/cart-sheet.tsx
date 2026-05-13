@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import {
   Sheet,
   SheetContent,
@@ -74,9 +75,14 @@ export function CartSheet() {
               <div className="space-y-6">
                 {cart.items.map((item: CartItem) => (
                   <div key={item.id} className="flex gap-4">
-                    <div className="h-20 w-20 rounded-md border bg-muted overflow-hidden flex-shrink-0">
+                    <div className="h-20 w-20 rounded-md border bg-muted overflow-hidden flex-shrink-0 relative">
                       {item.image ? (
-                        <img src={item.image} alt={item.name} className="h-full w-full object-cover" />
+                        <Image
+                          src={item.image}
+                          alt={item.name}
+                          fill
+                          className="object-cover"
+                        />
                       ) : (
                         <div className="h-full w-full flex items-center justify-center">
                           <ShoppingBag className="h-6 w-6 opacity-20" />

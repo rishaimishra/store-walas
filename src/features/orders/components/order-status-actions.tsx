@@ -39,8 +39,8 @@ export function OrderStatusActions({ order }: OrderStatusActionsProps) {
   return (
     <div className="grid grid-cols-1 gap-2">
       {statuses
-        .filter((s) => s.value !== order.status)
-        .map((s) => (
+        .filter((s: { label: string; value: OrderStatus; icon: LucideIcon; color: string }) => s.value !== order.status)
+        .map((s: { label: string; value: OrderStatus; icon: LucideIcon; color: string }) => (
           <Button
             key={s.value}
             variant="outline"
