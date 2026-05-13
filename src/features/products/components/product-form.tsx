@@ -35,19 +35,19 @@ import { ImageUpload } from "@/components/shared/image-upload";
 const productSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   description: z.string().min(10, "Description must be at least 10 characters"),
-  price: z.preprocess((val) => Number(val), z.number().positive("Price must be positive")),
-  stock: z.preprocess((val) => Number(val), z.number().int().nonnegative("Stock cannot be negative")),
+  price: z.coerce.number().min(0.01),
+  stock: z.coerce.number().int().min(0),
   categoryId: z.string().min(1, "Category is required"),
   images: z.array(z.string()).min(1, "At least one image is required"),
   variants: z.array(z.object({
-      size: z.string().optional(),
-      color: z.string().optional(),
-      stock: z.preprocess((val) => Number(val), z.number().int().nonnegative()),
-      price: z.preprocess((val) => val === "" || val === undefined ? undefined : Number(val), z.number().optional()),
+    size: z.string().optional(),
+    color: z.string().optional(),
+    stock: z.coerce.number().int().min(0),
+    price: z.coerce.number().optional(),
   })).optional(),
 });
 
-interface ProductFormValues {
+type ProductFormValues = {
   name: string;
   description: string;
   price: number;
@@ -60,12 +60,12 @@ interface ProductFormValues {
     stock: number;
     price?: number;
   }[];
-}
+};
 
 interface ProductFormProps {
   storeId: string;
   categories: Category[];
-  initialData?: Product & { images: { url: string }[], variants: { size: string | null, color: string | null, stock: number, price: number | string | { toString(): string } | null }[] };
+  initialData?: any;
 }
 
 export function ProductForm({ storeId, categories, initialData }: ProductFormProps) {
@@ -73,7 +73,7 @@ export function ProductForm({ storeId, categories, initialData }: ProductFormPro
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<ProductFormValues>({
-    resolver: zodResolver(productSchema),
+    resolver: zodResolver(productSchema) as any,
     defaultValues: initialData
       ? {
           name: initialData.name,
@@ -81,8 +81,8 @@ export function ProductForm({ storeId, categories, initialData }: ProductFormPro
           price: Number(initialData.price),
           stock: initialData.stock,
           categoryId: initialData.categoryId,
-          images: initialData.images.map((img: { url: string }) => img.url),
-          variants: initialData.variants.map((v: { size: string | null; color: string | null; stock: number; price: string | number | null | any }) => ({
+          images: initialData.images.map((img: any) => img.url),
+          variants: initialData.variants.map((v: any) => ({
               size: v.size || "",
               color: v.color || "",
               stock: v.stock,
@@ -210,7 +210,7 @@ export function ProductForm({ storeId, categories, initialData }: ProductFormPro
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          {categories.map((category: any) => (
+                          {categories.map((category: Category) => (
                             <SelectItem key={category.id} value={category.id}>
                               {category.name}
                             </SelectItem>
@@ -257,7 +257,7 @@ export function ProductForm({ storeId, categories, initialData }: ProductFormPro
                 <Separator />
 
                 <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2">
-                    {fields.map((field: any, index: number) => (
+                    {fields.map((field, index: number) => (
                         <div key={field.id} className="p-4 border rounded-lg bg-muted/30 space-y-4 relative group">
                             <Button
                                 type="button"

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ImagePlus, Trash, X } from "lucide-react";
+import { ImagePlus, Trash } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
 interface ImageUploadProps {

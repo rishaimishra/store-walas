@@ -6,6 +6,15 @@ import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
+import { Category, Product, ProductImage, ProductVariant } from "@prisma/client";
+
+export type ProductWithRelations = Product & {
+  category: Category;
+  images: ProductImage[];
+  variants: ProductVariant[];
+  store: { name: string; slug: string };
+};
+
 async function verifyStoreOwnership(storeId: string) {
   const session = await auth.api.getSession({
     headers: await headers(),
@@ -41,7 +50,7 @@ const productSchema = z.object({
   })).optional(),
 });
 
-export async function getProducts(storeId: string) {
+export async function getProducts(storeId: string): Promise<{ products?: ProductWithRelations[]; error?: string }> {
   try {
     await verifyStoreOwnership(storeId);
 
@@ -56,7 +65,7 @@ export async function getProducts(storeId: string) {
       orderBy: {
         createdAt: "desc",
       },
-    });
+    }) as ProductWithRelations[];
     return { products };
   } catch (error) {
     console.error("Failed to fetch products:", error);
@@ -166,7 +175,7 @@ export async function updateProduct(
             })),
           },
           variants: {
-              create: validatedData.variants?.map((v: any) => ({
+              create: validatedData.variants?.map((v: { size?: string; color?: string; stock: number; price?: number }) => ({
                   size: v.size,
                   color: v.color,
                   stock: v.stock,

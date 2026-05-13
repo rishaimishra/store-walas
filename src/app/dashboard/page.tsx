@@ -7,6 +7,8 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Plus, Store as StoreIcon } from "lucide-react";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 export default async function DashboardPage() {
   const session = await auth.api.getSession({
     headers: await headers(),

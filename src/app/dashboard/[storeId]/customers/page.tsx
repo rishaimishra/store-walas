@@ -18,7 +18,7 @@ export default async function CustomersPage({
   params: Promise<{ storeId: string }>;
 }) {
   const { storeId } = await params;
-  const { customers, error } = await getStoreCustomers(storeId);
+  const { customers } = await getStoreCustomers(storeId);
 
   interface CustomerItem {
     id: string;

@@ -1,5 +1,5 @@
-import { getStoreOrder } from "@/features/orders/actions/store";
-import { ChevronLeft, Package, MapPin, Calendar, User, ShoppingBag } from "lucide-react";
+import { getStoreOrder, StoreOrderDetails } from "@/features/orders/actions/store";
+import { ChevronLeft, Package, MapPin, User, ShoppingBag } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
@@ -16,7 +16,7 @@ export default async function StoreOrderDetailsPage({
   const { storeId, orderId } = await params;
   const { order } = await getStoreOrder(storeId, orderId);
 
-  if (!order) {
+  if (!order || !order.customer) {
     notFound();
   }
 
@@ -69,7 +69,7 @@ export default async function StoreOrderDetailsPage({
             </CardHeader>
             <CardContent>
               <div className="space-y-6">
-                {order.items.map((item: { id: string; product: { name: string; images: { url: string }[] }; variant: { size: string | null; color: string | null } | null; quantity: number; price: any }) => (
+                {order.items.map((item: StoreOrderDetails["items"][number]) => (
                   <div key={item.id} className="flex gap-4">
                     <div className="h-20 w-20 rounded border bg-muted flex-shrink-0 overflow-hidden">
                       {item.product.images[0] ? (

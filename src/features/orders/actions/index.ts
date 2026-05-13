@@ -4,16 +4,8 @@ import { db } from "@/lib/db";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
-import { z } from "zod";
 
-const orderSchema = z.object({
-  items: z.array(z.object({
-    productId: z.string(),
-    quantity: z.number().int().positive(),
-    price: z.number().positive(),
-  })),
-  shippingAddress: z.string().min(10, "Shipping address is too short"),
-});
+import { Order } from "@prisma/client";
 
 interface OrderItem {
   productId: string;
@@ -22,6 +14,11 @@ interface OrderItem {
   price: number;
   storeId: string;
 }
+
+export type OrderWithStore = Order & {
+  store: { name: string };
+  _count: { items: number };
+};
 
 export async function createOrder(data: {
   items: OrderItem[];
@@ -39,9 +36,6 @@ export async function createOrder(data: {
     if (data.items.length === 0) {
       return { error: "Your cart is empty" };
     }
-
-    // Calculate total amount
-    const totalAmount = data.items.reduce((acc: number, item: OrderItem) => acc + (item.price * item.quantity), 0);
 
     // Group items by store (since one order can contain items from multiple stores)
     // In a more complex multi-vendor app, we might create multiple sub-orders
@@ -122,7 +116,7 @@ export async function createOrder(data: {
   }
 }
 
-export async function getCustomerOrders() {
+export async function getCustomerOrders(): Promise<{ orders?: OrderWithStore[]; error?: string }> {
   try {
     const session = await auth.api.getSession({
       headers: await headers(),
@@ -137,7 +131,7 @@ export async function getCustomerOrders() {
         _count: { select: { items: true } },
       },
       orderBy: { createdAt: "desc" },
-    });
+    }) as OrderWithStore[];
 
     return { orders };
   } catch (error) {

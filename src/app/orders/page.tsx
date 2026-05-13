@@ -1,4 +1,4 @@
-import { getCustomerOrders } from "@/features/orders/actions";
+import { getCustomerOrders, OrderWithStore } from "@/features/orders/actions";
 import {
   Table,
   TableBody,
@@ -15,6 +15,8 @@ import { Eye, ShoppingBag, ChevronLeft } from "lucide-react";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+
+export const dynamic = "force-dynamic";
 
 export default async function CustomerOrdersPage() {
   const session = await auth.api.getSession({
@@ -80,7 +82,7 @@ export default async function CustomerOrdersPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {orders?.map((order: { id: string; orderNumber: string; createdAt: Date; totalAmount: any; status: string; store: { name: string } }) => (
+              {orders?.map((order: OrderWithStore) => (
                 <TableRow key={order.id} className="cursor-pointer group">
                   <TableCell className="font-mono text-xs font-bold">
                     {order.orderNumber}

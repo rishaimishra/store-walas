@@ -10,6 +10,7 @@ import {
   ShieldCheck,
   BarChart3,
   LogOut,
+  LucideIcon,
 } from "lucide-react";
 
 import {
@@ -79,7 +80,7 @@ export function AdminSidebar() {
           <SidebarGroupLabel>Management</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {adminNavItems.map((item: { title: string; url: string; icon: any }) => (
+              {adminNavItems.map((item: { title: string; url: string; icon: LucideIcon }) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     render={<Link href={item.url} />}
@@ -99,7 +100,7 @@ export function AdminSidebar() {
           <SidebarGroupLabel>Platform</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {settingItems.map((item: { title: string; url: string; icon: any }) => (
+              {settingItems.map((item: { title: string; url: string; icon: LucideIcon }) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     render={<Link href={item.url} />}

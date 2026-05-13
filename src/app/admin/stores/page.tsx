@@ -1,4 +1,4 @@
-import { getAllStores } from "@/features/stores/actions/admin";
+import { getAllStores, StoreWithAdminInfo } from "@/features/stores/actions/admin";
 import {
   Table,
   TableBody,
@@ -9,6 +9,8 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { StoreActions } from "@/features/stores/components/store-actions";
+
+export const dynamic = "force-dynamic";
 
 export default async function AdminStoresPage() {
   const { stores, error } = await getAllStores();
@@ -36,7 +38,7 @@ export default async function AdminStoresPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {stores?.map((store: any) => (
+            {stores?.map((store: StoreWithAdminInfo) => (
               <TableRow key={store.id}>
                 <TableCell className="font-medium">
                   <div>

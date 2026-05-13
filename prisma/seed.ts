@@ -1,4 +1,4 @@
-import { PrismaClient, UserRole, OrderStatus } from "@prisma/client";
+import { PrismaClient, UserRole } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -7,7 +7,7 @@ async function main() {
   console.log("Prisma models available:", Object.keys(prisma).filter(k => !k.startsWith("_")));
 
   // Create Super Admin
-  const admin = await prisma.user.upsert({
+  await prisma.user.upsert({
     where: { email: "admin@example.com" },
     update: {},
     create: {
@@ -52,7 +52,7 @@ async function main() {
     },
   });
 
-  const store2 = await prisma.store.upsert({
+  await prisma.store.upsert({
     where: { slug: "vintage-vibes" },
     update: {},
     create: {
@@ -97,7 +97,7 @@ async function main() {
     });
 
   // Create Products
-  const p1 = await prisma.product.upsert({
+  await prisma.product.upsert({
     where: {
       storeId_slug: {
         storeId: store1.id,

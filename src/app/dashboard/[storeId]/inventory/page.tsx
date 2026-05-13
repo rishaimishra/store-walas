@@ -1,4 +1,4 @@
-import { getProducts } from "@/features/products/actions";
+import { getProducts, ProductWithRelations } from "@/features/products/actions";
 import {
   Table,
   TableBody,
@@ -8,10 +8,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { db } from "@/lib/db";
 import { AlertTriangle, Package, Edit2 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { ProductVariant } from "@prisma/client";
 
 export default async function InventoryPage({
   params,
@@ -34,11 +34,11 @@ export default async function InventoryPage({
     size: string;
     color: string;
     stock: number;
-    price: number | any;
+    price: number;
     isVariant: boolean;
   }
 
-  const inventoryItems = (products as any[])?.flatMap((product: any) => {
+  const inventoryItems = (products as ProductWithRelations[])?.flatMap((product: ProductWithRelations) => {
     const baseItem: InventoryItem = {
       id: product.id,
       productId: product.id,
@@ -47,11 +47,11 @@ export default async function InventoryPage({
       size: "-",
       color: "-",
       stock: product.stock,
-      price: product.price,
+      price: Number(product.price),
       isVariant: false,
     };
 
-    const variantItems: InventoryItem[] = product.variants.map((v: any) => ({
+    const variantItems: InventoryItem[] = product.variants.map((v: ProductVariant) => ({
       id: v.id,
       productId: product.id,
       name: product.name,
@@ -59,7 +59,7 @@ export default async function InventoryPage({
       size: v.size || "Default",
       color: v.color || "Default",
       stock: v.stock,
-      price: v.price || product.price,
+      price: v.price ? Number(v.price) : Number(product.price),
       isVariant: true,
     }));
 

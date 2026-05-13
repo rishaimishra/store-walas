@@ -7,6 +7,7 @@ import { ShoppingBag, ChevronLeft, Truck, ShieldCheck, RotateCcw, Star } from "l
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
+import { ProductImage, Review } from "@prisma/client";
 
 import { ProductPurchaseSection } from "@/features/products/components/product-purchase-section";
 import { ReviewForm } from "@/features/products/components/review-form";
@@ -44,7 +45,7 @@ export default async function ProductDetailsPage({
   }
 
   const averageRating = product.reviews.length > 0
-    ? product.reviews.reduce((acc: number, r: any) => acc + r.rating, 0) / product.reviews.length
+    ? product.reviews.reduce((acc: number, r: Review) => acc + r.rating, 0) / product.reviews.length
     : 0;
 
   return (
@@ -76,7 +77,7 @@ export default async function ProductDetailsPage({
             )}
           </div>
           <div className="grid grid-cols-4 gap-4">
-            {product.images.slice(1).map((image: any) => (
+            {product.images.slice(1).map((image: ProductImage) => (
               <div
                 key={image.id}
                 className="aspect-square bg-muted rounded-lg overflow-hidden border cursor-pointer hover:opacity-80 transition-opacity"
@@ -169,7 +170,7 @@ export default async function ProductDetailsPage({
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
                 <div className="space-y-6">
-                    {product.reviews.map((review: any) => (
+                    {product.reviews.map((review: Review & { user: { name: string | null; image: string | null } }) => (
                         <div key={review.id} className="space-y-3">
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-3">
@@ -183,7 +184,7 @@ export default async function ProductDetailsPage({
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-0.5 text-yellow-400">
-                                    {Array.from({ length: 5 }).map((_: any, i: number) => (
+                                    {Array.from({ length: 5 }).map((_, i) => (
                                         <Star key={i} className={cn("h-3 w-3", i < review.rating ? "fill-current" : "text-muted opacity-30")} />
                                     ))}
                                 </div>

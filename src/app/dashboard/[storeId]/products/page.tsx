@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
 import { getProducts } from "@/features/products/actions";
 import { Button } from "@/components/ui/button";
-import { Plus, Package, Search } from "lucide-react";
+import { Plus, Package } from "lucide-react";
 import Link from "next/link";
 import {
   Table,
@@ -13,6 +13,13 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { ProductActions } from "@/features/products/components/product-actions";
+import { Product, Category, ProductImage, ProductVariant } from "@prisma/client";
+
+type ProductWithDetails = Product & {
+  category: Category;
+  images: ProductImage[];
+  variants: ProductVariant[];
+};
 
 export default async function ProductsPage({
   params,
@@ -20,7 +27,7 @@ export default async function ProductsPage({
   params: Promise<{ storeId: string }>;
 }) {
   const { storeId } = await params;
-  const { products, error } = await getProducts(storeId);
+  const { products } = await getProducts(storeId);
 
   const store = await db.store.findUnique({
       where: { id: storeId },
@@ -52,7 +59,7 @@ export default async function ProductsPage({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {products?.map((product: { id: string; name: string; price: any; stock: number; category: { name: string }; images: { url: string }[]; variants: any[] }) => (
+            {products?.map((product: ProductWithDetails) => (
               <TableRow key={product.id}>
                 <TableCell className="font-medium">
                   <div className="flex items-center gap-3">

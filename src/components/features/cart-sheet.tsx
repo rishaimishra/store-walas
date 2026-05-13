@@ -12,7 +12,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { ShoppingCart, Trash2, Plus, Minus, ShoppingBag } from "lucide-react";
 import { useCart, CartItem } from "@/hooks/use-cart";
-import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 

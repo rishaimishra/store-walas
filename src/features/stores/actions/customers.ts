@@ -2,7 +2,7 @@
 
 import { db } from "@/lib/db";
 
-export async function getStoreCustomers(storeId: string) {
+export async function getStoreCustomers(storeId: string): Promise<{ customers?: StoreCustomer[]; error?: string }> {
   try {
     // A customer is a user who has placed at least one order in this store
     const orders = await db.order.findMany({
@@ -24,18 +24,9 @@ export async function getStoreCustomers(storeId: string) {
     });
 
     // Group by customer and calculate total spend and order count
-    const customerMap = new Map<string, {
-        id: string;
-        name: string | null;
-        email: string;
-        image: string | null;
-        createdAt: Date;
-        totalSpend: number;
-        orderCount: number;
-        lastOrderDate: Date;
-    }>();
+    const customerMap = new Map<string, StoreCustomer>();
 
-    orders.forEach((order: any) => {
+    orders.forEach((order) => {
       const customer = order.customer;
       if (!customerMap.has(customer.id)) {
         customerMap.set(customer.id, {
@@ -65,3 +56,14 @@ export async function getStoreCustomers(storeId: string) {
     return { error: "Failed to fetch customers" };
   }
 }
+
+export type StoreCustomer = {
+    id: string;
+    name: string | null;
+    email: string;
+    image: string | null;
+    createdAt: Date;
+    totalSpend: number;
+    orderCount: number;
+    lastOrderDate: Date;
+};

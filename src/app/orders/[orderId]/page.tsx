@@ -8,6 +8,15 @@ import { Separator } from "@/components/ui/separator";
 import { ChevronLeft, Package, MapPin, Calendar, Store } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { ProductImage, ProductVariant } from "@prisma/client";
+
+interface OrderItemWithProduct {
+  id: string;
+  product: { name: string; slug: string; images: ProductImage[] };
+  variant: ProductVariant | null;
+  quantity: number;
+  price: number | { toString(): string };
+}
 
 export default async function OrderDetailsPage({
   params,
@@ -72,7 +81,7 @@ export default async function OrderDetailsPage({
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              {order.items.map((item: { id: string; product: { name: string; slug: string; images: { url: string }[] }; variant: { size: string | null; color: string | null } | null; quantity: number; price: any }) => (
+              {order.items.map((item: OrderItemWithProduct) => (
                 <div key={item.id} className="flex gap-4">
                   <div className="h-16 w-16 rounded border bg-muted overflow-hidden flex-shrink-0">
                     {item.product.images[0] && (

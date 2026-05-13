@@ -5,6 +5,18 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 
+import { Store } from "@prisma/client";
+
+export type StoreWithAdminInfo = Store & {
+  owner: {
+    name: string | null;
+    email: string;
+  };
+  _count: {
+    products: number;
+  };
+};
+
 async function getAdminSession() {
   const session = await auth.api.getSession({
     headers: await headers(),
@@ -17,7 +29,7 @@ async function getAdminSession() {
   return session;
 }
 
-export async function getAllStores() {
+export async function getAllStores(): Promise<{ stores?: StoreWithAdminInfo[]; error?: string }> {
   try {
     await getAdminSession();
 
@@ -38,7 +50,7 @@ export async function getAllStores() {
       orderBy: {
         createdAt: "desc",
       },
-    });
+    }) as StoreWithAdminInfo[];
     return { stores };
   } catch (error) {
     console.error("Failed to fetch stores:", error);

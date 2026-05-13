@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { ShoppingBag, DollarSign, Package, Users, TrendingUp } from "lucide-react";
+import { ShoppingBag, DollarSign, Package, TrendingUp, LucideIcon } from "lucide-react";
 import { db } from "@/lib/db";
+import { Order } from "@prisma/client";
 
 export default async function StoreDashboardPage({
   params,
@@ -54,7 +55,7 @@ export default async function StoreDashboardPage({
     salesMap[days[d.getDay()]] = 0;
   }
 
-  dailyOrders.forEach((order: any) => {
+  dailyOrders.forEach((order) => {
     const day = days[new Date(order.createdAt).getDay()];
     if (salesMap[day] !== undefined) {
       salesMap[day] += Number(order.totalAmount);
@@ -64,9 +65,8 @@ export default async function StoreDashboardPage({
   const salesData = Object.entries(salesMap).map(([day, amount]: [string, number]) => ({
     day,
     amount
-  })).reverse(); // Keep chronological order (roughly, based on how we initialized)
+  })).reverse();
 
-  // Better chronological sort for the last 7 days
   const chartData = [];
   for (let i = 6; i >= 0; i--) {
       const d = new Date();
@@ -78,9 +78,9 @@ export default async function StoreDashboardPage({
       });
   }
 
-  const maxSales = Math.max(...chartData.map((d: any) => d.amount), 1);
+  const maxSales = Math.max(...chartData.map((d) => d.amount), 1);
 
-  const stats = [
+  const stats: { title: string; value: string; icon: LucideIcon; description: string }[] = [
     {
       title: "Total Revenue",
       value: `$${totalRevenue.toFixed(2)}`,
@@ -114,7 +114,7 @@ export default async function StoreDashboardPage({
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat: any) => (
+        {stats.map((stat) => (
           <Card key={stat.title}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
@@ -139,7 +139,7 @@ export default async function StoreDashboardPage({
             <CardDescription>Sales overview for the last 7 days</CardDescription>
           </CardHeader>
           <CardContent className="h-[300px] flex items-end justify-between gap-2 pt-10">
-            {salesData.map((data: any) => (
+            {salesData.map((data) => (
                 <div key={data.day} className="flex-1 flex flex-col items-center gap-2 group">
                     <div
                         className="w-full bg-primary/20 hover:bg-primary transition-colors rounded-t-sm relative"
@@ -162,7 +162,7 @@ export default async function StoreDashboardPage({
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {recentOrders.map((order: any) => (
+              {recentOrders.map((order: Order & { customer: { name: string | null; email: string } }) => (
                   <div key={order.id} className="flex items-center justify-between border-b pb-4 last:border-0 last:pb-0">
                       <div className="space-y-1">
                           <p className="text-sm font-bold">{order.customer.name || "Customer"}</p>

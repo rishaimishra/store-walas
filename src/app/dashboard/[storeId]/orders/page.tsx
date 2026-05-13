@@ -1,4 +1,4 @@
-import { getStoreOrders } from "@/features/orders/actions/store";
+import { getStoreOrders, StoreOrderWithCustomer } from "@/features/orders/actions/store";
 import {
   Table,
   TableBody,
@@ -19,7 +19,7 @@ export default async function OrdersPage({
   params: Promise<{ storeId: string }>;
 }) {
   const { storeId } = await params;
-  const { orders, error } = await getStoreOrders(storeId);
+  const { orders } = await getStoreOrders(storeId);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -57,7 +57,7 @@ export default async function OrdersPage({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {orders?.map((order: { id: string; createdAt: Date; totalAmount: any; status: string; customer: { name: string | null; email: string }; _count: { items: number } }) => (
+            {orders?.map((order: StoreOrderWithCustomer) => (
               <TableRow key={order.id}>
                 <TableCell className="font-mono text-xs">
                   {order.id.slice(-8).toUpperCase()}

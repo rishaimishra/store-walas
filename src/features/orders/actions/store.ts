@@ -3,8 +3,21 @@
 import { db } from "@/lib/db";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { OrderStatus } from "@prisma/client";
+import { Order, OrderStatus, ProductVariant, OrderItem } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+
+export type StoreOrderWithCustomer = Order & {
+  customer: { name: string | null; email: string };
+  _count: { items: number };
+};
+
+export type StoreOrderDetails = Order & {
+  customer: { name: string | null; email: string };
+  items: (OrderItem & {
+    product: { name: string; images: { url: string }[] };
+    variant: ProductVariant | null;
+  })[];
+};
 
 async function verifyStoreOwnership(storeId: string) {
   const session = await auth.api.getSession({
@@ -26,7 +39,7 @@ async function verifyStoreOwnership(storeId: string) {
   return { session, store };
 }
 
-export async function getStoreOrders(storeId: string) {
+export async function getStoreOrders(storeId: string): Promise<{ orders?: StoreOrderWithCustomer[]; error?: string }> {
   try {
     await verifyStoreOwnership(storeId);
 
@@ -37,7 +50,7 @@ export async function getStoreOrders(storeId: string) {
         _count: { select: { items: true } },
       },
       orderBy: { createdAt: "desc" },
-    });
+    }) as StoreOrderWithCustomer[];
     return { orders };
   } catch (error) {
     console.error("Failed to fetch store orders:", error);
@@ -61,7 +74,7 @@ export async function updateOrderStatus(storeId: string, orderId: string, status
   }
 }
 
-export async function getStoreOrder(storeId: string, orderId: string) {
+export async function getStoreOrder(storeId: string, orderId: string): Promise<{ order?: StoreOrderDetails; error?: string }> {
   try {
     await verifyStoreOwnership(storeId);
 
@@ -76,7 +89,10 @@ export async function getStoreOrder(storeId: string, orderId: string) {
           }
         }
       },
-    });
+    }) as StoreOrderDetails | null;
+
+    if (!order) return { error: "Order not found" };
+
     return { order };
   } catch (error) {
     console.error("Failed to fetch store order:", error);

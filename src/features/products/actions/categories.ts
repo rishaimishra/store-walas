@@ -6,6 +6,14 @@ import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
+import { Category } from "@prisma/client";
+
+export type CategoryWithCount = Category & {
+  _count: {
+    products: number;
+  };
+};
+
 async function verifyStoreOwnership(storeId: string) {
   const session = await auth.api.getSession({
     headers: await headers(),
@@ -30,7 +38,7 @@ const categorySchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
 });
 
-export async function getCategories(storeId: string) {
+export async function getCategories(storeId: string): Promise<{ categories?: CategoryWithCount[]; error?: string }> {
   try {
     await verifyStoreOwnership(storeId);
 
@@ -42,7 +50,7 @@ export async function getCategories(storeId: string) {
         }
       },
       orderBy: { name: "asc" },
-    });
+    }) as CategoryWithCount[];
     return { categories };
   } catch (error) {
     console.error("Failed to fetch categories:", error);

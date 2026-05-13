@@ -9,6 +9,15 @@ import { CartSheet } from "@/components/features/cart-sheet";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ProductCard } from "@/components/shared/product-card";
+import { Product, ProductImage, Store, Category, ProductVariant, Review } from "@prisma/client";
+
+type ProductWithRelations = Product & {
+  images: ProductImage[];
+  store: Pick<Store, "name" | "slug">;
+  category: Category;
+  variants: ProductVariant[];
+  reviews: Review[];
+};
 
 export default async function HomePage() {
   const [stores, newArrivals] = await Promise.all([
@@ -158,7 +167,7 @@ export default async function HomePage() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {newArrivals.map((product: { id: string; name: string; price: any; slug: string; store: { name: string; slug: string }; images: { url: string }[]; category: { name: string }; variants: any[]; reviews: any[] }) => (
+              {newArrivals.map((product: ProductWithRelations) => (
                 <ProductCard key={product.id} product={JSON.parse(JSON.stringify(product))} />
               ))}
             </div>

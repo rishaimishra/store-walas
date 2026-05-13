@@ -13,8 +13,9 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
-import { LayoutDashboard, LogOut, Settings, User, Store, ShoppingBag } from "lucide-react";
+import { LayoutDashboard, LogOut, User, Store, ShoppingBag } from "lucide-react";
 import Link from "next/link";
+import { UserRole } from "@prisma/client";
 
 export function UserNav() {
   const { data: session, isPending } = authClient.useSession();
@@ -48,9 +49,8 @@ export function UserNav() {
     });
   };
 
-  const user = session.user;
+  const user = session.user as typeof session.user & { role: UserRole };
   const initials = user.name?.split(" ").map((n: string) => n[0]).join("").toUpperCase() || user.email[0].toUpperCase();
-  const userRole = (user as any).role; // Narrowing the any usage to just the custom field if needed, or better yet:
 
   return (
     <DropdownMenu>

@@ -39,8 +39,8 @@ export function OrderStatusActions({ order }: OrderStatusActionsProps) {
   return (
     <div className="grid grid-cols-1 gap-2">
       {statuses
-        .filter((s: any) => s.value !== order.status)
-        .map((s: any) => (
+        .filter((s) => s.value !== order.status)
+        .map((s) => (
           <Button
             key={s.value}
             variant="outline"

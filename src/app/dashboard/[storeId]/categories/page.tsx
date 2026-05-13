@@ -1,4 +1,4 @@
-import { getCategories } from "@/features/products/actions/categories";
+import { getCategories, CategoryWithCount } from "@/features/products/actions/categories";
 import {
   Table,
   TableBody,
@@ -44,7 +44,7 @@ export default async function CategoriesPage({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {categories?.map((category: any) => (
+            {categories?.map((category: CategoryWithCount) => (
               <TableRow key={category.id}>
                 <TableCell className="font-medium">{category.name}</TableCell>
                 <TableCell className="text-muted-foreground">{category.slug}</TableCell>

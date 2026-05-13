@@ -10,6 +10,7 @@ import {
   Settings,
   Store,
   ChevronLeft,
+  LucideIcon,
 } from "lucide-react";
 
 import {
@@ -83,7 +84,7 @@ export function DashboardSidebar() {
           <SidebarGroupLabel>Management</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {navItems.map((item: { title: string; url: string; icon: any }) => (
+              {navItems.map((item: { title: string; url: string; icon: LucideIcon }) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     render={<Link href={item.url} />}

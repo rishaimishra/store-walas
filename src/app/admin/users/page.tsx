@@ -1,4 +1,4 @@
-import { getAllUsers } from "@/features/auth/actions/admin";
+import { getAllUsers, UserWithStats } from "@/features/auth/actions/admin";
 import {
   Table,
   TableBody,
@@ -9,6 +9,8 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
+export const dynamic = "force-dynamic";
 
 export default async function AdminUsersPage() {
   const { users, error } = await getAllUsers();
@@ -36,7 +38,7 @@ export default async function AdminUsersPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {users?.map((user: any) => (
+            {users?.map((user: UserWithStats) => (
               <TableRow key={user.id}>
                 <TableCell className="font-medium">
                   <div className="flex items-center gap-3">

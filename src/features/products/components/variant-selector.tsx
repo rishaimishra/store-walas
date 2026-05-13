@@ -2,7 +2,6 @@
 
 import { ProductVariant } from "@prisma/client";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 
 interface VariantSelectorProps {
   variants: ProductVariant[];
@@ -36,7 +35,7 @@ export function VariantSelector({
             Color
           </h4>
           <div className="flex flex-wrap gap-2">
-            {colors.map((color: any) => {
+            {colors.map((color) => {
               const isSelected = selectedVariant?.color === color;
               const isAvailable = variants.some(
                 (v: ProductVariant) => v.color === color && v.stock > 0
@@ -69,7 +68,7 @@ export function VariantSelector({
             Size
           </h4>
           <div className="flex flex-wrap gap-2">
-            {sizes.map((size: any) => {
+            {sizes.map((size) => {
               const isSelected = selectedVariant?.size === size;
               const isAvailable = variants.some(
                 (v: ProductVariant) => v.size === size && v.stock > 0

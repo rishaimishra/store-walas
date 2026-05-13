@@ -1,10 +1,24 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Store, Users, ShoppingBag, DollarSign, ShieldAlert } from "lucide-react";
+import { Store, Users, ShoppingBag, DollarSign, ShieldAlert, LucideIcon } from "lucide-react";
 import { db } from "@/lib/db";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
+import { UserRole } from "@prisma/client";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+
+export const dynamic = "force-dynamic";
 
 export default async function AdminDashboard() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session || session.user.role !== "SUPER_ADMIN") {
+    redirect("/");
+  }
+
   const [
     storeCount,
     userCount,
@@ -48,7 +62,7 @@ export default async function AdminDashboard() {
   interface AdminStat {
     title: string;
     value: string;
-    icon: any; // LucideIcon
+    icon: LucideIcon;
     description: string;
   }
 
@@ -112,7 +126,7 @@ export default async function AdminDashboard() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-                {topStores.map((store: any) => (
+                {topStores.map((store: { id: string; name: string; owner: { name: string | null }; _count: { orders: number } }) => (
                     <div key={store.id} className="flex items-center justify-between border-b pb-4 last:border-0 last:pb-0">
                         <div className="space-y-1">
                             <p className="text-sm font-bold">{store.name}</p>
@@ -142,7 +156,7 @@ export default async function AdminDashboard() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-                {recentUsers.map((user: any) => (
+                {recentUsers.map((user: { email: string; name: string | null; role: UserRole; createdAt: Date }) => (
                     <div key={user.email} className="flex items-center justify-between border-b pb-4 last:border-0 last:pb-0">
                         <div className="space-y-1">
                             <p className="text-sm font-bold">{user.name || user.email.split('@')[0]}</p>
@@ -166,7 +180,7 @@ export default async function AdminDashboard() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-                {pendingStores.map((store: any) => (
+                {pendingStores.map((store: { id: string; name: string; owner: { name: string | null; email: string } }) => (
                     <div key={store.id} className="flex items-center justify-between border-b pb-4 last:border-0 last:pb-0">
                         <div className="space-y-1">
                             <p className="text-sm font-bold">{store.name}</p>

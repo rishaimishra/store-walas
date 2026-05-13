@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ShoppingBag, Store as StoreIcon, Search } from "lucide-react";
+import { ShoppingBag, Store as StoreIcon } from "lucide-react";
 import Link from "next/link";
 import { SearchInput } from "@/components/shared/search-input";
 import { Suspense } from "react";

@@ -6,6 +6,15 @@ import { SearchInput } from "@/components/shared/search-input";
 import { StoreFilterSidebar } from "@/features/stores/components/store-filter-sidebar";
 import { ProductCard } from "@/components/shared/product-card";
 import { cn } from "@/lib/utils";
+import { Category, Product, ProductImage, ProductVariant, Review, Store } from "@prisma/client";
+
+type ProductWithInclude = Product & {
+    category: Category;
+    images: ProductImage[];
+    store: Pick<Store, "name" | "slug">;
+    variants: ProductVariant[];
+    reviews: Review[];
+};
 
 export default async function SearchPage({
   searchParams,
@@ -124,7 +133,7 @@ export default async function SearchPage({
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-              {products.map((product: any) => (
+              {products.map((product: ProductWithInclude) => (
                 <ProductCard key={product.id} product={JSON.parse(JSON.stringify(product))} />
               ))}
 
