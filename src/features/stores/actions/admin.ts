@@ -1,10 +1,26 @@
 "use server";
 
 import { db } from "@/lib/db";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
+
+async function getAdminSession() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session || session.user.role !== "SUPER_ADMIN") {
+    throw new Error("Unauthorized: Super Admin access required");
+  }
+
+  return session;
+}
 
 export async function getAllStores() {
   try {
+    await getAdminSession();
+
     const stores = await db.store.findMany({
       include: {
         owner: {
@@ -32,6 +48,8 @@ export async function getAllStores() {
 
 export async function toggleStoreApproval(id: string, isApproved: boolean) {
   try {
+    await getAdminSession();
+
     await db.store.update({
       where: { id },
       data: { isApproved },
@@ -46,6 +64,8 @@ export async function toggleStoreApproval(id: string, isApproved: boolean) {
 
 export async function toggleStoreStatus(id: string, isActive: boolean) {
   try {
+    await getAdminSession();
+
     await db.store.update({
       where: { id },
       data: { isActive },

@@ -46,6 +46,16 @@ A production-ready SaaS foundation for building multi-store ecommerce marketplac
    npm run dev
    ```
 
+## Admin Access
+
+To gain Super Admin access in development:
+1. Run `npx prisma studio` and delete the existing `admin@example.com` user if it exists.
+2. Register a new account with that email at `/auth/register`.
+3. Use Prisma Studio to change the `role` of that new user to `SUPER_ADMIN`.
+4. You can now access the Admin Panel at `/admin`.
+
+For more details, see `prisma/set-admin-password.ts`.
+
 ## Project Structure
 
 - `src/app`: Application routes and layouts.

@@ -1,11 +1,35 @@
 "use server";
 
 import { db } from "@/lib/db";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 import { OrderStatus } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
+async function verifyStoreOwnership(storeId: string) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    throw new Error("Unauthorized: Please log in");
+  }
+
+  const store = await db.store.findUnique({
+    where: { id: storeId, ownerId: session.user.id },
+  });
+
+  if (!store && session.user.role !== "SUPER_ADMIN") {
+    throw new Error("Unauthorized: You do not own this store");
+  }
+
+  return { session, store };
+}
+
 export async function getStoreOrders(storeId: string) {
   try {
+    await verifyStoreOwnership(storeId);
+
     const orders = await db.order.findMany({
       where: { storeId },
       include: {
@@ -23,6 +47,8 @@ export async function getStoreOrders(storeId: string) {
 
 export async function updateOrderStatus(storeId: string, orderId: string, status: OrderStatus) {
   try {
+    await verifyStoreOwnership(storeId);
+
     await db.order.update({
       where: { id: orderId, storeId },
       data: { status },
@@ -37,6 +63,8 @@ export async function updateOrderStatus(storeId: string, orderId: string, status
 
 export async function getStoreOrder(storeId: string, orderId: string) {
   try {
+    await verifyStoreOwnership(storeId);
+
     const order = await db.order.findUnique({
       where: { id: orderId, storeId },
       include: {

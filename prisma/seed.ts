@@ -81,8 +81,23 @@ async function main() {
     },
   });
 
+  const cat2 = await prisma.category.upsert({
+      where: {
+        storeId_slug: {
+          storeId: store1.id,
+          slug: "outerwear",
+        },
+      },
+      update: {},
+      create: {
+        name: "Outerwear",
+        slug: "outerwear",
+        storeId: store1.id,
+      },
+    });
+
   // Create Products
-  await prisma.product.upsert({
+  const p1 = await prisma.product.upsert({
     where: {
       storeId_slug: {
         storeId: store1.id,
@@ -93,11 +108,55 @@ async function main() {
     create: {
       name: "Classic White Tee",
       slug: "classic-white-tee",
-      description: "A simple, high-quality white t-shirt.",
+      description: "A simple, high-quality white t-shirt made from 100% organic cotton. Perfect for everyday wear.",
       price: 29.99,
       stock: 100,
       storeId: store1.id,
       categoryId: cat1.id,
+      images: {
+          create: [
+              { url: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=1000&auto=format&fit=crop", order: 0 }
+          ]
+      },
+      variants: {
+          create: [
+              { size: "S", color: "White", stock: 25 },
+              { size: "M", color: "White", stock: 25 },
+              { size: "L", color: "White", stock: 25 },
+              { size: "XL", color: "White", stock: 25 },
+          ]
+      }
+    },
+  });
+
+  await prisma.product.upsert({
+    where: {
+      storeId_slug: {
+        storeId: store1.id,
+        slug: "vintage-denim-jacket",
+      },
+    },
+    update: {},
+    create: {
+      name: "Vintage Denim Jacket",
+      slug: "vintage-denim-jacket",
+      description: "A classic 90s style denim jacket with a relaxed fit and light wash finish.",
+      price: 89.99,
+      stock: 50,
+      storeId: store1.id,
+      categoryId: cat2.id,
+      images: {
+          create: [
+              { url: "https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=1000&auto=format&fit=crop", order: 0 }
+          ]
+      },
+      variants: {
+          create: [
+              { size: "M", color: "Blue", stock: 20 },
+              { size: "L", color: "Blue", stock: 20 },
+              { size: "XL", color: "Blue", stock: 10 },
+          ]
+      }
     },
   });
 

@@ -1,8 +1,30 @@
 "use server";
 
 import { db } from "@/lib/db";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
+
+async function verifyStoreOwnership(storeId: string) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    throw new Error("Unauthorized: Please log in");
+  }
+
+  const store = await db.store.findUnique({
+    where: { id: storeId, ownerId: session.user.id },
+  });
+
+  if (!store && session.user.role !== "SUPER_ADMIN") {
+    throw new Error("Unauthorized: You do not own this store");
+  }
+
+  return { session, store };
+}
 
 const productSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -21,6 +43,8 @@ const productSchema = z.object({
 
 export async function getProducts(storeId: string) {
   try {
+    await verifyStoreOwnership(storeId);
+
     const products = await db.product.findMany({
       where: { storeId },
       include: {
@@ -41,6 +65,8 @@ export async function getProducts(storeId: string) {
 
 export async function createProduct(storeId: string, data: z.infer<typeof productSchema>) {
   try {
+    await verifyStoreOwnership(storeId);
+
     const validatedData = productSchema.parse(data);
 
     // Generate slug
@@ -88,6 +114,8 @@ export async function createProduct(storeId: string, data: z.infer<typeof produc
 
 export async function getProduct(storeId: string, productId: string) {
   try {
+    await verifyStoreOwnership(storeId);
+
     const product = await db.product.findUnique({
       where: { id: productId, storeId },
       include: {
@@ -108,6 +136,8 @@ export async function updateProduct(
   data: z.infer<typeof productSchema>
 ) {
   try {
+    await verifyStoreOwnership(storeId);
+
     const validatedData = productSchema.parse(data);
 
     // Update product and its images/variants
@@ -160,6 +190,8 @@ export async function updateProduct(
 
 export async function deleteProduct(storeId: string, productId: string) {
   try {
+    await verifyStoreOwnership(storeId);
+
     await db.product.delete({
       where: { id: productId, storeId },
     });

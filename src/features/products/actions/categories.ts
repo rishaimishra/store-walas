@@ -1,8 +1,30 @@
 "use server";
 
 import { db } from "@/lib/db";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
+
+async function verifyStoreOwnership(storeId: string) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    throw new Error("Unauthorized: Please log in");
+  }
+
+  const store = await db.store.findUnique({
+    where: { id: storeId, ownerId: session.user.id },
+  });
+
+  if (!store && session.user.role !== "SUPER_ADMIN") {
+    throw new Error("Unauthorized: You do not own this store");
+  }
+
+  return { session, store };
+}
 
 const categorySchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -10,6 +32,8 @@ const categorySchema = z.object({
 
 export async function getCategories(storeId: string) {
   try {
+    await verifyStoreOwnership(storeId);
+
     const categories = await db.category.findMany({
       where: { storeId },
       include: {
@@ -28,6 +52,8 @@ export async function getCategories(storeId: string) {
 
 export async function createCategory(storeId: string, data: z.infer<typeof categorySchema>) {
   try {
+    await verifyStoreOwnership(storeId);
+
     const validatedData = categorySchema.parse(data);
 
     // Generate slug
@@ -57,6 +83,8 @@ export async function createCategory(storeId: string, data: z.infer<typeof categ
 
 export async function deleteCategory(storeId: string, categoryId: string) {
   try {
+    await verifyStoreOwnership(storeId);
+
     // Check if category has products
     const productCount = await db.product.count({
       where: { categoryId }
