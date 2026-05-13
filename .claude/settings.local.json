@@ -30,7 +30,8 @@
       "Bash(npx shadcn *)",
       "Bash(npm list *)",
       "Bash(npm run *)",
-      "Bash(pnpm run *)"
+      "Bash(pnpm run *)",
+      "Bash(git add *)"
     ]
   }
 }

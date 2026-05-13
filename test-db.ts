@@ -10,7 +10,7 @@ async function main() {
     console.log("Prisma client is working correctly!");
   } catch (error) {
     console.error("Prisma client error:", error);
-    console.log("Models available on prisma object:", Object.keys(prisma).filter(k => !k.startsWith("_")));
+    console.log("Models available on prisma object:", Object.keys(prisma).filter((k: string) => !k.startsWith("_")));
   } finally {
     await prisma.$disconnect();
   }
