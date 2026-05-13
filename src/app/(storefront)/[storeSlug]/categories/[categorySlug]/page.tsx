@@ -33,7 +33,7 @@ export default async function CategoryPage({
     notFound();
   }
 
-  const category = store.categories.find(c => c.slug === categorySlug);
+  const category = store.categories.find((c: { slug: string }) => c.slug === categorySlug);
 
   if (!category) {
       notFound();

@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
-import { LayoutDashboard, LogOut, Settings, User, Store } from "lucide-react";
+import { LayoutDashboard, LogOut, Settings, User, Store, ShoppingBag } from "lucide-react";
 import Link from "next/link";
 
 export function UserNav() {
@@ -77,6 +77,10 @@ export function UserNav() {
           <DropdownMenuItem render={<Link href="/profile" className="cursor-pointer" />}>
             <User className="mr-2 h-4 w-4" />
             <span>Profile</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem render={<Link href="/orders" className="cursor-pointer" />}>
+            <ShoppingBag className="mr-2 h-4 w-4" />
+            <span>My Orders</span>
           </DropdownMenuItem>
           {user.role === "SUPER_ADMIN" && (
             <DropdownMenuItem render={<Link href="/admin/dashboard" className="cursor-pointer" />}>
