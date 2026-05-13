@@ -55,8 +55,8 @@ export default async function SearchPage({
     select: { size: true, color: true }
   });
 
-  const uniqueSizes = Array.from(new Set(allVariants.map(v => v.size).filter(Boolean))) as string[];
-  const uniqueColors = Array.from(new Set(allVariants.map(v => v.color).filter(Boolean))) as string[];
+  const uniqueSizes = Array.from(new Set(allVariants.map((v: { size: string | null }) => v.size).filter(Boolean))) as string[];
+  const uniqueColors = Array.from(new Set(allVariants.map((v: { color: string | null }) => v.color).filter(Boolean))) as string[];
 
   // Fetch all active categories
   const categories = await db.category.findMany({
@@ -93,7 +93,7 @@ export default async function SearchPage({
                       >
                           All Categories
                       </Link>
-                      {categories.map((cat) => (
+                      {categories.map((cat: { name: string; slug: string }) => (
                           <Link
                               key={cat.slug}
                               href={`/search?category=${cat.slug}${query ? `&q=${query}` : ""}${size ? `&size=${size}` : ""}${color ? `&color=${color}` : ""}`}

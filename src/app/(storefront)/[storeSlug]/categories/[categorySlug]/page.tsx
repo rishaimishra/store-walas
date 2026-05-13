@@ -112,7 +112,7 @@ export default async function CategoryPage({
                         >
                             All Items
                         </Link>
-                        {store.categories.map((cat) => (
+                        {store.categories.map((cat: { id: string; name: string; slug: string }) => (
                             <Link
                                 key={cat.id}
                                 href={`/${storeSlug}/categories/${cat.slug}${size ? `?size=${size}` : ""}${color ? `${size ? "&" : "?"}color=${color}` : ""}`}

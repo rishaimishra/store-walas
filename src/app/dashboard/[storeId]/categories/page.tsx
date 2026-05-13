@@ -44,7 +44,7 @@ export default async function CategoriesPage({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {categories?.map((category) => (
+            {categories?.map((category: any) => (
               <TableRow key={category.id}>
                 <TableCell className="font-medium">{category.name}</TableCell>
                 <TableCell className="text-muted-foreground">{category.slug}</TableCell>

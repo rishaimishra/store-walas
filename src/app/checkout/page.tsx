@@ -45,7 +45,7 @@ export default function CheckoutPage() {
     );
   }
 
-  const subtotal = cart.items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const subtotal = cart.items.reduce((acc: number, item: any) => acc + item.price * item.quantity, 0);
   const shipping = 10; // Flat rate for MVP
   const total = subtotal + shipping;
 
@@ -57,7 +57,7 @@ export default function CheckoutPage() {
 
     startTransition(async () => {
       const orderData = {
-        items: cart.items.map(item => ({
+        items: cart.items.map((item: any) => ({
           productId: item.productId,
           variantId: item.variant?.id,
           quantity: item.quantity,
@@ -150,7 +150,7 @@ export default function CheckoutPage() {
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="max-h-[300px] overflow-y-auto space-y-4 pr-2">
-                {cart.items.map((item) => (
+                {cart.items.map((item: any) => (
                   <div key={item.id} className="flex justify-between gap-4">
                     <div className="flex gap-3">
                       <div className="h-14 w-14 rounded-md border bg-muted flex-shrink-0 overflow-hidden">

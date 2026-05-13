@@ -81,8 +81,8 @@ export function ProductForm({ storeId, categories, initialData }: ProductFormPro
           price: Number(initialData.price),
           stock: initialData.stock,
           categoryId: initialData.categoryId,
-          images: initialData.images.map((img) => img.url),
-          variants: initialData.variants.map(v => ({
+          images: initialData.images.map((img: { url: string }) => img.url),
+          variants: initialData.variants.map((v: { size: string | null; color: string | null; stock: number; price: any }) => ({
               size: v.size || "",
               color: v.color || "",
               stock: v.stock,
@@ -109,7 +109,7 @@ export function ProductForm({ storeId, categories, initialData }: ProductFormPro
     startTransition(async () => {
       const formattedValues = {
         ...values,
-        variants: values.variants?.map(v => ({
+        variants: values.variants?.map((v: any) => ({
             ...v,
             size: v.size || undefined,
             color: v.color || undefined,

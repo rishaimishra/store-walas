@@ -54,7 +54,7 @@ export default async function StoreDashboardPage({
     salesMap[days[d.getDay()]] = 0;
   }
 
-  dailyOrders.forEach(order => {
+  dailyOrders.forEach((order: any) => {
     const day = days[new Date(order.createdAt).getDay()];
     if (salesMap[day] !== undefined) {
       salesMap[day] += Number(order.totalAmount);
@@ -78,7 +78,7 @@ export default async function StoreDashboardPage({
       });
   }
 
-  const maxSales = Math.max(...chartData.map(d => d.amount), 1);
+  const maxSales = Math.max(...chartData.map((d: any) => d.amount), 1);
 
   const stats = [
     {
@@ -114,7 +114,7 @@ export default async function StoreDashboardPage({
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat) => (
+        {stats.map((stat: any) => (
           <Card key={stat.title}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
@@ -139,7 +139,7 @@ export default async function StoreDashboardPage({
             <CardDescription>Sales overview for the last 7 days</CardDescription>
           </CardHeader>
           <CardContent className="h-[300px] flex items-end justify-between gap-2 pt-10">
-            {salesData.map((data) => (
+            {salesData.map((data: any) => (
                 <div key={data.day} className="flex-1 flex flex-col items-center gap-2 group">
                     <div
                         className="w-full bg-primary/20 hover:bg-primary transition-colors rounded-t-sm relative"
@@ -162,7 +162,7 @@ export default async function StoreDashboardPage({
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {recentOrders.map((order) => (
+              {recentOrders.map((order: any) => (
                   <div key={order.id} className="flex items-center justify-between border-b pb-4 last:border-0 last:pb-0">
                       <div className="space-y-1">
                           <p className="text-sm font-bold">{order.customer.name || "Customer"}</p>

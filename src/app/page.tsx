@@ -95,7 +95,7 @@ export default async function HomePage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {stores.map((store) => (
+              {stores.map((store: any) => (
                 <Card key={store.id} className="overflow-hidden group hover:shadow-lg transition-shadow">
                   <div className="h-48 bg-muted relative">
                     {store.bannerUrl ? (
@@ -158,7 +158,7 @@ export default async function HomePage() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {newArrivals.map((product) => (
+              {newArrivals.map((product: any) => (
                 <ProductCard key={product.id} product={JSON.parse(JSON.stringify(product))} />
               ))}
             </div>

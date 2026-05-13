@@ -70,8 +70,8 @@ export default async function StoreHomePage({
     }
   });
 
-  const uniqueSizes = Array.from(new Set(allStoreVariants.map(v => v.size).filter(Boolean))) as string[];
-  const uniqueColors = Array.from(new Set(allStoreVariants.map(v => v.color).filter(Boolean))) as string[];
+  const uniqueSizes = Array.from(new Set(allStoreVariants.map((v: { size: string | null }) => v.size).filter(Boolean))) as string[];
+  const uniqueColors = Array.from(new Set(allStoreVariants.map((v: { color: string | null }) => v.color).filter(Boolean))) as string[];
 
   return (
     <div className="flex flex-col gap-12 pb-20">
@@ -122,7 +122,7 @@ export default async function StoreHomePage({
                         >
                             All Items
                         </Link>
-                        {store.categories.map((cat) => (
+                        {store.categories.map((cat: { id: string; name: string; slug: string }) => (
                             <Link
                                 key={cat.id}
                                 href={`/${storeSlug}?category=${cat.slug}${size ? `&size=${size}` : ""}${color ? `&color=${color}` : ""}`}
@@ -144,7 +144,7 @@ export default async function StoreHomePage({
             <div className="flex items-center justify-between mb-8">
               <div>
                 <h2 className="text-2xl font-bold">
-                    {category ? store.categories.find(c => c.slug === category)?.name : "Latest Arrivals"}
+                    {category ? store.categories.find((c: { slug: string; name: string }) => c.slug === category)?.name : "Latest Arrivals"}
                 </h2>
                 {(size || color) && (
                     <p className="text-xs text-muted-foreground mt-1">

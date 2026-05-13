@@ -79,7 +79,7 @@ export default async function AdminDashboard() {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat) => (
+        {stats.map((stat: any) => (
           <Card key={stat.title}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
@@ -105,7 +105,7 @@ export default async function AdminDashboard() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-                {topStores.map((store) => (
+                {topStores.map((store: any) => (
                     <div key={store.id} className="flex items-center justify-between border-b pb-4 last:border-0 last:pb-0">
                         <div className="space-y-1">
                             <p className="text-sm font-bold">{store.name}</p>
@@ -135,7 +135,7 @@ export default async function AdminDashboard() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-                {recentUsers.map((user) => (
+                {recentUsers.map((user: any) => (
                     <div key={user.email} className="flex items-center justify-between border-b pb-4 last:border-0 last:pb-0">
                         <div className="space-y-1">
                             <p className="text-sm font-bold">{user.name || user.email.split('@')[0]}</p>
@@ -159,7 +159,7 @@ export default async function AdminDashboard() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-                {pendingStores.map((store) => (
+                {pendingStores.map((store: any) => (
                     <div key={store.id} className="flex items-center justify-between border-b pb-4 last:border-0 last:pb-0">
                         <div className="space-y-1">
                             <p className="text-sm font-bold">{store.name}</p>

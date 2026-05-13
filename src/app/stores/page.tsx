@@ -46,7 +46,7 @@ export default async function StoresListPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {stores.map((store) => (
+          {stores.map((store: any) => (
             <Card key={store.id} className="overflow-hidden group hover:shadow-lg transition-shadow">
               <div className="h-40 bg-muted relative">
                 {store.bannerUrl ? (

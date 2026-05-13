@@ -61,7 +61,7 @@ export function StoreFilterSidebar({ sizes, colors }: StoreFilterSidebarProps) {
         <div className="space-y-4">
           <h4 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">Color</h4>
           <div className="flex flex-wrap gap-2">
-            {colors.map((color) => {
+            {colors.map((color: string) => {
               const isSelected = selectedColor === color;
               return (
                 <button
@@ -87,7 +87,7 @@ export function StoreFilterSidebar({ sizes, colors }: StoreFilterSidebarProps) {
         <div className="space-y-4">
           <h4 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">Size</h4>
           <div className="flex flex-wrap gap-2">
-            {sizes.map((size) => {
+            {sizes.map((size: string) => {
               const isSelected = selectedSize === size;
               return (
                 <button

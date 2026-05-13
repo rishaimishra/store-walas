@@ -18,11 +18,11 @@ export function VariantSelector({
   if (variants.length === 0) return null;
 
   // Extract unique sizes and colors
-  const sizes = Array.from(new Set(variants.map((v) => v.size).filter(Boolean)));
-  const colors = Array.from(new Set(variants.map((v) => v.color).filter(Boolean)));
+  const sizes = Array.from(new Set(variants.map((v: any) => v.size).filter(Boolean)));
+  const colors = Array.from(new Set(variants.map((v: any) => v.color).filter(Boolean)));
 
   const handleSelect = (size?: string | null, color?: string | null) => {
-    const found = variants.find((v) => v.size === size && v.color === color);
+    const found = variants.find((v: any) => v.size === size && v.color === color);
     if (found) {
       onVariantSelect(found);
     }
@@ -36,10 +36,10 @@ export function VariantSelector({
             Color
           </h4>
           <div className="flex flex-wrap gap-2">
-            {colors.map((color) => {
+            {colors.map((color: any) => {
               const isSelected = selectedVariant?.color === color;
               const isAvailable = variants.some(
-                (v) => v.color === color && v.stock > 0
+                (v: any) => v.color === color && v.stock > 0
               );
 
               return (
@@ -69,10 +69,10 @@ export function VariantSelector({
             Size
           </h4>
           <div className="flex flex-wrap gap-2">
-            {sizes.map((size) => {
+            {sizes.map((size: any) => {
               const isSelected = selectedVariant?.size === size;
               const isAvailable = variants.some(
-                (v) => v.size === size && v.stock > 0
+                (v: any) => v.size === size && v.stock > 0
               );
 
               return (

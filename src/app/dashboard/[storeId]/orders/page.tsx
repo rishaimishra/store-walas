@@ -57,7 +57,7 @@ export default async function OrdersPage({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {orders?.map((order) => (
+            {orders?.map((order: any) => (
               <TableRow key={order.id}>
                 <TableCell className="font-mono text-xs">
                   {order.id.slice(-8).toUpperCase()}

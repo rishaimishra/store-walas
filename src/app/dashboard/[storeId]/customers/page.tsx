@@ -44,7 +44,7 @@ export default async function CustomersPage({
               <div>
                   <p className="text-xs text-muted-foreground uppercase font-bold">Total Customer Spend</p>
                   <p className="text-2xl font-bold text-green-600">
-                      ${customers?.reduce((acc, c) => acc + c.totalSpend, 0).toFixed(2) || "0.00"}
+                      ${customers?.reduce((acc: number, c: any) => acc + c.totalSpend, 0).toFixed(2) || "0.00"}
                   </p>
               </div>
           </div>
@@ -55,7 +55,7 @@ export default async function CustomersPage({
               <div>
                   <p className="text-xs text-muted-foreground uppercase font-bold">Avg. Orders per Customer</p>
                   <p className="text-2xl font-bold text-blue-600">
-                      {customers?.length ? (customers.reduce((acc, c) => acc + c.orderCount, 0) / customers.length).toFixed(1) : "0.0"}
+                      {customers?.length ? (customers.reduce((acc: number, c: any) => acc + c.orderCount, 0) / customers.length).toFixed(1) : "0.0"}
                   </p>
               </div>
           </div>
@@ -74,7 +74,7 @@ export default async function CustomersPage({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {customers?.map((customer) => {
+            {customers?.map((customer: any) => {
               const initials = customer.name?.split(" ").map((n: string) => n[0]).join("").toUpperCase() || customer.email[0].toUpperCase();
 
               return (

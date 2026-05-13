@@ -20,11 +20,11 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, showStore = true }: ProductCardProps) {
-  const colorVariants = Array.from(new Set(product.variants.map(v => v.color).filter(Boolean)));
+  const colorVariants = Array.from(new Set(product.variants.map((v: any) => v.color).filter(Boolean)));
   const hasMultipleColors = colorVariants.length > 1;
 
   const averageRating = product.reviews && product.reviews.length > 0
-    ? product.reviews.reduce((acc, r) => acc + r.rating, 0) / product.reviews.length
+    ? product.reviews.reduce((acc: number, r: any) => acc + r.rating, 0) / product.reviews.length
     : 0;
 
   return (

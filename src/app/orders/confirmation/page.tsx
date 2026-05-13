@@ -15,7 +15,7 @@ async function OrderNumbers({ ids }: { ids: string }) {
     <div className="mt-6 space-y-3">
       <p className="text-sm font-medium text-muted-foreground">Order Reference(s):</p>
       <div className="flex flex-wrap justify-center gap-2">
-        {orders.map((order) => (
+        {orders.map((order: any) => (
           <Link
             key={order.id}
             href={`/orders/${order.id}`}

@@ -39,13 +39,13 @@ export async function createOrder(data: {
     // In a more complex multi-vendor app, we might create multiple sub-orders
     // For this MVP, we'll create one order per store to make management easier for owners
 
-    const storeIds = [...new Set(data.items.map(item => item.storeId))];
+    const storeIds = [...new Set(data.items.map((item: any) => item.storeId))];
     const createdOrders: any[] = [];
 
     // Use a transaction to ensure all orders are created and stock is updated atomically
     await db.$transaction(async (tx) => {
       for (const storeId of storeIds) {
-        const storeItems = data.items.filter(item => item.storeId === storeId);
+        const storeItems = data.items.filter((item: any) => item.storeId === storeId);
         const storeTotal = storeItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
         const orderNumber = `ORD-${Math.random().toString(36).substring(2, 9).toUpperCase()}`;
 
@@ -93,7 +93,7 @@ export async function createOrder(data: {
             customerId: session.user.id,
             shippingAddress: data.shippingAddress,
             items: {
-              create: storeItems.map(item => ({
+              create: storeItems.map((item: any) => ({
                 productId: item.productId,
                 variantId: item.variantId,
                 quantity: item.quantity,
@@ -107,7 +107,7 @@ export async function createOrder(data: {
     });
 
     revalidatePath("/orders");
-    return { success: true, orderIds: createdOrders.map(o => o.id) };
+    return { success: true, orderIds: createdOrders.map((o: any) => o.id) };
   } catch (error) {
     console.error("Failed to create order:", error);
     return { error: "Failed to place order. Please try again." };

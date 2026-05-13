@@ -36,7 +36,7 @@ export default async function AdminStoresPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {stores?.map((store) => (
+            {stores?.map((store: any) => (
               <TableRow key={store.id}>
                 <TableCell className="font-medium">
                   <div>

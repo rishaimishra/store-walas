@@ -72,7 +72,7 @@ export default async function OrderDetailsPage({
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              {order.items.map((item) => (
+              {order.items.map((item: any) => (
                 <div key={item.id} className="flex gap-4">
                   <div className="h-16 w-16 rounded border bg-muted overflow-hidden flex-shrink-0">
                     {item.product.images[0] && (
